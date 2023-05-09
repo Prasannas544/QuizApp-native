@@ -10,8 +10,8 @@ const MyStack = () => {
     return (
 
         <Stack.Navigator>
-            <Stack.Screen name="Quiz" component={Quiz} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+            <Stack.Screen name="Quiz" component={Quiz} options={{ headerShown: false }} />
             <Stack.Screen name="Result" component={Result} options={{ headerShown: false }} />
 
         </Stack.Navigator>

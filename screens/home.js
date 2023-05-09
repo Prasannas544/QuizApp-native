@@ -3,24 +3,35 @@ import React from 'react';
 import Title from '../components/title';
 import {ThemedButton} from 'react-native-really-awesome-button';
 
-const staticImage = require('../components/quzz.jpg');
+const staticImage = require('../components/App.png');
 
 const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Title />
+      {/* <Title /> */}
       <View style={styles.bannerContainer}>
         <Image
           source={staticImage}
           style={styles.banner}
-          resizeMode="contain"
+          resizeMode="center"
+          resizeMethod="scale"
         />
       </View>
+      <View>
+      <Image
+          source={require('../components/logo.png')}
+          style={{width:300,height:350,margin:50,alignSelf:'center'}}
+          resizeMode="cover"
+        />
+      </View>
+
       <ThemedButton
+        width={250}
+        style={{display: 'flex', alignSelf: 'center', marginBottom: 20}}
         name="bruce"
         onPress={() => navigation.navigate('Quiz')}
         type="anchor">
-        Start
+        <Text style={{fontSize: 20, fontWeight: 700}}>Start</Text>
       </ThemedButton>
     </View>
   );
@@ -30,9 +41,9 @@ export default Home;
 
 const styles = StyleSheet.create({
   banner: {
-    height: 300,
+    marginTop: 100,
+    height: 125,
     width: 300,
-    borderRadius: 16,
   },
   bannerContainer: {
     justifyContent: 'flex-start',
@@ -40,7 +51,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    // paddingTop:40,
     paddingHorizontal: 20,
     height: '100%',
   },

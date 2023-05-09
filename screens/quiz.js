@@ -37,7 +37,7 @@ const Quiz = ({navigation}) => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-    return () => clearInterval(timer);
+    return () => clearInterval( );
   });
 
   const getQuiz = async () => {
