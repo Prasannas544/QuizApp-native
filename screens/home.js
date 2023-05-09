@@ -1,32 +1,38 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
-import Title from '../components/title'
-const staticImage = require('../components/quzz.jpg')
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import Title from '../components/title';
+import {ThemedButton} from 'react-native-really-awesome-button';
 
-const Home = ({ navigation }) => {
+const staticImage = require('../components/quzz.jpg');
+
+const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Title />
       <View style={styles.bannerContainer}>
-        <Image source={staticImage}
+        <Image
+          source={staticImage}
           style={styles.banner}
-          resizeMode='contain' />
+          resizeMode="contain"
+        />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate("Quiz")}
-        style={styles.button}>
-        <Text style={styles.buttonText}>Start</Text>
-      </TouchableOpacity>
+      <ThemedButton
+        name="bruce"
+        onPress={() => navigation.navigate('Quiz')}
+        type="anchor">
+        Start
+      </ThemedButton>
     </View>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
 
 const styles = StyleSheet.create({
   banner: {
     height: 300,
-    width: 300,    
-    borderRadius:16,
+    width: 300,
+    borderRadius: 16,
   },
   bannerContainer: {
     justifyContent: 'flex-start',
@@ -36,21 +42,19 @@ const styles = StyleSheet.create({
   container: {
     // paddingTop:40,
     paddingHorizontal: 20,
-    height: "100%"
+    height: '100%',
   },
   button: {
-    width: "100%",
-    backgroundColor: "#1A759F",
+    width: '100%',
     padding: 16,
     borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom:30
-
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 30,
   },
   buttonText: {
     fontSize: 24,
-    fontWeight: "600",
-    color: "white",
-  }
-})
+    fontWeight: '600',
+    color: 'white',
+  },
+});
