@@ -1,41 +1,69 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Lottie from 'lottie-react-native';
+
 import React from 'react';
 import {ThemedButton} from 'react-native-really-awesome-button';
 
-const staticImage = require('../components/winner.png');
+const staticImage = require('../components/resul-bg.png');
 
 const Result = ({navigation, route}) => {
-  //   const params = route.params;
+  // const params = route.params;
   params = {score: 69};
   return (
-    <View style={{position:'relative',flex:1}}>
-      <View>
-        <Text style={{fontSize: 40, alignSelf: 'center'}}>Result</Text>
-        <Text style={{fontSize: 16, alignSelf: 'center'}}>
-          Score : {params.score}
-        </Text>
-      </View>
-
-      <View style={styles.bannerContainer}>
-        <Image
+    <View style={{position: 'relative', flex: 1, backgroundColor: '#fff9e4'}}>
+      <View style={[styles.bannerContainer, {paddingTop: 50}]}>
+        <ImageBackground
           source={staticImage}
           style={styles.banner}
-          resizeMode="contain"
-        />
+          resizeMode="contain">
+          <View style={{paddingTop: 10}}>
+            <Text
+              style={{
+                fontSize: 48,
+                alignSelf: 'center',
+                fontFamily: 'CabinetGrotesk-Black',
+                color: '#000',
+              }}>
+              Result
+            </Text>
+            <Text
+              style={{
+                fontSize: 20,
+                alignSelf: 'center',
+                fontFamily: 'CabinetGrotesk-Black',
+                color: '#000',
+              }}>
+              Score : {params.score}
+            </Text>
+          </View>
+        </ImageBackground>
       </View>
-      <View style={{alignSelf: 'center',bottom:20,position:'absolute'}}>
+      <Lottie
+        style={{marginTop: 85}}
+        source={require('../components/penguin.json')}
+        autoPlay
+        loop
+      />
+      <View style={{alignSelf: 'center', bottom: 20, position: 'absolute'}}>
         <ThemedButton
-          width={112}
-          height={49}
+          width={250}
           raiseLevel={4}
           backgroundColor="#3C9BF2"
-          borderColor='#102940'
-          backgroundDarker='#102940'
+          borderColor="#102940"
+          backgroundDarker="#102940"
           name="bruce"
           type="anchor"
-          //   onPress={() => navigation.navigate('Home')}>
-        >
-          <Text style={styles.buttonText}>Home</Text>
+          onPress={() => navigation.navigate('Home')}>
+          <Text
+            style={[styles.buttonText, {fontFamily: 'CabinetGrotesk-Black'}]}>
+            Home
+          </Text>
         </ThemedButton>
       </View>
     </View>
@@ -51,8 +79,13 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   banner: {
+    position: 'relative',
     height: 300,
     width: 300,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   bannerContainer: {
     justifyContent: 'center',
@@ -70,7 +103,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 20,
-    fontWeight: '700',
     color: 'black',
   },
 });

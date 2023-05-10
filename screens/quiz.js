@@ -11,6 +11,7 @@ import Modal from 'react-native-modal';
 import React, {useEffect, useState} from 'react';
 import {ThemedButton} from 'react-native-really-awesome-button';
 import {useWindowDimensions} from 'react-native';
+import Lottie from 'lottie-react-native';
 
 const Quiz = ({navigation}) => {
   const windowWidth = useWindowDimensions().width;
@@ -53,148 +54,148 @@ const Quiz = ({navigation}) => {
 
   const getQuiz = async () => {
     setisLoading(true);
-    // const url =
-    //   'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
-    // const res = await fetch(url);
-    // console.log(res);
-    // const data = await res.json();
-    // console.log(data);
+    const url =
+      'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
+    const res = await fetch(url);
+    console.log(res);
+    const data = await res.json();
+    console.log(data);
 
-    const data = {
-      response_code: 0,
-      results: [
-        {
-          category: 'Entertainment%3A%20Video%20Games',
-          correct_answer: 'Halo%203%3A%20Recon',
-          difficulty: 'medium',
-          incorrect_answers: [
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-          ],
-          question:
-            'When%20Halo%203%3A%20ODST%20was%20unveiled%20in%202008%2C%20it%20had%20a%20different%20title.%20What%20was%20the%20game%20formally%20called%3F',
-          type: 'multiple',
-        },
-        {
-          category: 'General%20Knowledge',
-          correct_answer: 'Potimarron',
-          difficulty: 'hard',
-          incorrect_answers: [
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-          ],
-          question:
-            'Which%20of%20the%20following%20is%20not%20another%20name%20for%20the%20eggplant%3F',
-          type: 'multiple',
-        },
-        {
-          category: 'History',
-          correct_answer: 'Robbing%20Trains',
-          difficulty: 'medium',
-          incorrect_answers: [
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-          ],
-          question:
-            'Joseph%20Stalin%20had%20a%20criminal%20past%20doing%20what%3F',
-          type: 'multiple',
-        },
-        {
-          category: 'Entertainment%3A%20Comics',
-          correct_answer: 'Prospit',
-          difficulty: 'hard',
-          incorrect_answers: [
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-          ],
-          question:
-            'In%20the%20Homestuck%20Series%2C%20what%20is%20the%20alternate%20name%20for%20the%20Kingdom%20of%20Lights%3F',
-          type: 'multiple',
-        },
-        {
-          category: 'Entertainment%3A%20Video%20Games',
-          correct_answer: 'Cicero',
-          difficulty: 'medium',
-          incorrect_answers: [
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-          ],
-          question:
-            'In%20The%20Elder%20Scrolls%20V%3A%20Skyrim%2C%20who%20is%20the%20jester%20in%20the%20dark%20brotherhood%3F',
-          type: 'multiple',
-        },
-        {
-          category: 'Entertainment%3A%20Japanese%20Anime%20%26%20Manga',
-          correct_answer: '8',
-          difficulty: 'easy',
-          incorrect_answers: [
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-          ],
-          question:
-            'How%20many%20%22JoJos%22%20that%20are%20protagonists%20are%20there%20in%20the%20series%20%22Jojo%27s%20Bizarre%20Adventure%22%3F',
-          type: 'multiple',
-        },
-        {
-          category: 'Entertainment%3A%20Japanese%20Anime%20%26%20Manga',
-          correct_answer: 'Production%20I.G',
-          difficulty: 'hard',
-          incorrect_answers: [
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-          ],
-          question:
-            'Which%20animation%20studio%20animated%20%22Psycho%20Pass%22%3F',
-          type: 'multiple',
-        },
-        {
-          category: 'History',
-          correct_answer: 'Mayans',
-          difficulty: 'hard',
-          incorrect_answers: [
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-          ],
-          question:
-            'The%20ancient%20city%20of%20Chich%C3%A9n%20Itz%C3%A1%20was%20built%20by%20which%20civilization%3F',
-          type: 'multiple',
-        },
-        {
-          category: 'General%20Knowledge',
-          correct_answer: 'Platelets',
-          difficulty: 'easy',
-          incorrect_answers: [
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-          ],
-          question:
-            'Which%20of%20the%20following%20blood%20component%20forms%20a%20plug%20at%20the%20site%20of%20injuries%3F',
-          type: 'multiple',
-        },
-        {
-          category: 'Entertainment%3A%20Music',
-          correct_answer: 'Waves',
-          difficulty: 'medium',
-          incorrect_answers: [
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-            'Halo%203%3A%20Recon',
-          ],
-          question:
-            'Which%20of%20these%20is%20not%20a%20song%20on%20the%20album%20Graduation%20by%20Kanye%20West%3F',
-          type: 'multiple',
-        },
-      ],
-    };
+    // const data = {
+    //   response_code: 0,
+    //   results: [
+    //     {
+    //       category: 'Entertainment%3A%20Video%20Games',
+    //       correct_answer: 'Halo%203%3A%20Recon',
+    //       difficulty: 'medium',
+    //       incorrect_answers: [
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //       ],
+    //       question:
+    //         'When%20Halo%203%3A%20ODST%20was%20unveiled%20in%202008%2C%20it%20had%20a%20different%20title.%20What%20was%20the%20game%20formally%20called%3F',
+    //       type: 'multiple',
+    //     },
+    //     {
+    //       category: 'General%20Knowledge',
+    //       correct_answer: 'Potimarron',
+    //       difficulty: 'hard',
+    //       incorrect_answers: [
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //       ],
+    //       question:
+    //         'Which%20of%20the%20following%20is%20not%20another%20name%20for%20the%20eggplant%3F',
+    //       type: 'multiple',
+    //     },
+    //     {
+    //       category: 'History',
+    //       correct_answer: 'Robbing%20Trains',
+    //       difficulty: 'medium',
+    //       incorrect_answers: [
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //       ],
+    //       question:
+    //         'Joseph%20Stalin%20had%20a%20criminal%20past%20doing%20what%3F',
+    //       type: 'multiple',
+    //     },
+    //     {
+    //       category: 'Entertainment%3A%20Comics',
+    //       correct_answer: 'Prospit',
+    //       difficulty: 'hard',
+    //       incorrect_answers: [
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //       ],
+    //       question:
+    //         'In%20the%20Homestuck%20Series%2C%20what%20is%20the%20alternate%20name%20for%20the%20Kingdom%20of%20Lights%3F',
+    //       type: 'multiple',
+    //     },
+    //     {
+    //       category: 'Entertainment%3A%20Video%20Games',
+    //       correct_answer: 'Cicero',
+    //       difficulty: 'medium',
+    //       incorrect_answers: [
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //       ],
+    //       question:
+    //         'In%20The%20Elder%20Scrolls%20V%3A%20Skyrim%2C%20who%20is%20the%20jester%20in%20the%20dark%20brotherhood%3F',
+    //       type: 'multiple',
+    //     },
+    //     {
+    //       category: 'Entertainment%3A%20Japanese%20Anime%20%26%20Manga',
+    //       correct_answer: '8',
+    //       difficulty: 'easy',
+    //       incorrect_answers: [
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //       ],
+    //       question:
+    //         'How%20many%20%22JoJos%22%20that%20are%20protagonists%20are%20there%20in%20the%20series%20%22Jojo%27s%20Bizarre%20Adventure%22%3F',
+    //       type: 'multiple',
+    //     },
+    //     {
+    //       category: 'Entertainment%3A%20Japanese%20Anime%20%26%20Manga',
+    //       correct_answer: 'Production%20I.G',
+    //       difficulty: 'hard',
+    //       incorrect_answers: [
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //       ],
+    //       question:
+    //         'Which%20animation%20studio%20animated%20%22Psycho%20Pass%22%3F',
+    //       type: 'multiple',
+    //     },
+    //     {
+    //       category: 'History',
+    //       correct_answer: 'Mayans',
+    //       difficulty: 'hard',
+    //       incorrect_answers: [
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //       ],
+    //       question:
+    //         'The%20ancient%20city%20of%20Chich%C3%A9n%20Itz%C3%A1%20was%20built%20by%20which%20civilization%3F',
+    //       type: 'multiple',
+    //     },
+    //     {
+    //       category: 'General%20Knowledge',
+    //       correct_answer: 'Platelets',
+    //       difficulty: 'easy',
+    //       incorrect_answers: [
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //       ],
+    //       question:
+    //         'Which%20of%20the%20following%20blood%20component%20forms%20a%20plug%20at%20the%20site%20of%20injuries%3F',
+    //       type: 'multiple',
+    //     },
+    //     {
+    //       category: 'Entertainment%3A%20Music',
+    //       correct_answer: 'Waves',
+    //       difficulty: 'medium',
+    //       incorrect_answers: [
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //         'Halo%203%3A%20Recon',
+    //       ],
+    //       question:
+    //         'Which%20of%20these%20is%20not%20a%20song%20on%20the%20album%20Graduation%20by%20Kanye%20West%3F',
+    //       type: 'multiple',
+    //     },
+    //   ],
+    // };
 
     setQuestions(data.results);
     setOptions(generateOptionsAndShuffle(data.results[0]));
@@ -249,16 +250,34 @@ const Quiz = ({navigation}) => {
   let optArr = ['A', 'B', 'C', 'D'];
 
   return (
-    <View style={{height: windowHeight, width: windowWidth}}>
+    <View
+      style={{
+        height: windowHeight,
+        width: windowWidth,
+      }}>
       {isLoading ? (
         <View
           style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100%',
+            height: windowHeight,
+            backgroundColor: '#fff9e4',
           }}>
-          <Text style={{fontWeight: '700', fontSize: 32}}>Loading...</Text>
+          <Lottie
+            style={{width: 150}}
+            source={require('../components/loader-bat.json')}
+            autoPlay
+            loop
+          />
+          <Text
+            style={{
+              fontFamily: 'CabinetGrotesk-Black',
+              color: '#000',
+              fontSize: 16,
+            }}>
+            Kowaloski Analysis !!
+          </Text>
         </View>
       ) : (
         questions && (
@@ -295,7 +314,9 @@ const Quiz = ({navigation}) => {
                   source={require('../components/stats.png')}
                   style={{width: 17, height: 22}}
                 />
-                <Text style={{}}>&nbsp;Stats</Text>
+                <Text style={{fontFamily: 'CabinetGrotesk-Black'}}>
+                  &nbsp;Stats
+                </Text>
               </ThemedButton>
             </View>
 
@@ -309,14 +330,26 @@ const Quiz = ({navigation}) => {
                 justifyContent: 'space-between',
               }}>
               <View>
-                <Text>
+                <Text
+                  style={{fontFamily: 'CabinetGrotesk-Black', color: '#000'}}>
                   ❔{ques}/{questions.length}
                 </Text>
               </View>
-              <Text>Score : {score}</Text>
+              <Text style={{fontFamily: 'CabinetGrotesk-Black', color: '#000'}}>
+                Score : {score}
+              </Text>
               <View>
-                <Text style={{color: '#000'}}>
-                  {Math.floor(timerCount / 60)}:{timerCount % 60} ⏲️
+                <Text
+                  style={{
+                    color: '#000',
+                    fontFamily: 'CabinetGrotesk-Black',
+                    color: '#000',
+                  }}>
+                  0{Math.floor(timerCount / 60)}:
+                  {timerCount % 60 < 10
+                    ? `0${timerCount % 60}`
+                    : timerCount % 60}{' '}
+                  ⏲️
                 </Text>
               </View>
             </View>
@@ -329,7 +362,15 @@ const Quiz = ({navigation}) => {
                 backgroundColor: '#000',
               }}></View>
             <View style={[styles.que, {paddingHorizontal: windowWidth * 0.05}]}>
-              <Text style={styles.question}>
+              <Text
+                style={[
+                  styles.question,
+                  {
+                    fontFamily: 'CabinetGrotesk-Black',
+                    color: '#000',
+                    fontSize: 20,
+                  },
+                ]}>
                 Q. {decodeURIComponent(questions[ques].question)}
               </Text>
             </View>
@@ -351,7 +392,11 @@ const Quiz = ({navigation}) => {
                     }}
                     key={i}
                     type="anchor">
-                    <Text style={{}}>
+                    <Text
+                      style={{
+                        fontFamily: 'CabinetGrotesk-Black',
+                        color: bgfn(i).bd,
+                      }}>
                       {optArr[i]}) &nbsp;
                       {decodeURIComponent(opt)}
                     </Text>
@@ -372,7 +417,7 @@ const Quiz = ({navigation}) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  paddingVertical: windowHeight * 0.02,
+                  paddingVertical: windowHeight * 0.015,
                 }}>
                 <Image
                   source={require('../components/up-chevron.png')}
@@ -380,9 +425,9 @@ const Quiz = ({navigation}) => {
                 />
                 <Text
                   style={{
-                    fontFamily: 'Space Grotesk ',
+                    fontFamily: 'CabinetGrotesk-Black',
+                    color: '#000',
                     fontSize: 24,
-                    fontWeight: 700,
                   }}>
                   Powerups
                 </Text>
@@ -420,9 +465,9 @@ const Quiz = ({navigation}) => {
                 />
                 <Text
                   style={{
-                    fontFamily: 'Space Grotesk ',
+                    fontFamily: 'CabinetGrotesk-Black',
+                    color: '#000',
                     fontSize: 24,
-                    fontWeight: 700,
                   }}>
                   Powerups
                 </Text>
@@ -562,7 +607,14 @@ const Quiz = ({navigation}) => {
                   </TouchableOpacity>
                 </View>
                 <View style={{display: 'flex', padding: windowWidth * 0.05}}>
-                  <Text>Stats</Text>
+                  <Text
+                    style={{
+                      fontFamily: 'CabinetGrotesk-Black',
+                      color: '#000',
+                      fontSize: 32,
+                    }}>
+                    Stats
+                  </Text>
                   <View
                     style={{
                       display: 'flex',
@@ -570,9 +622,23 @@ const Quiz = ({navigation}) => {
                       justifyContent: 'space-between',
                     }}>
                     <View>
-                      <Text>Answered:</Text>
+                      <Text
+                        style={{
+                          fontFamily: 'CabinetGrotesk-Black',
+                          color: '#000',
+                          fontSize: 24,
+                        }}>
+                        Answered:
+                      </Text>
                     </View>
-                    <Text>5</Text>
+                    <Text
+                      style={{
+                        fontFamily: 'CabinetGrotesk-Black',
+                        color: '#000',
+                        fontSize: 24,
+                      }}>
+                      5
+                    </Text>
                   </View>
                   <View
                     style={{
@@ -581,9 +647,23 @@ const Quiz = ({navigation}) => {
                       justifyContent: 'space-between',
                     }}>
                     <View>
-                      <Text>✔️ Right answers:</Text>
+                      <Text
+                        style={{
+                          fontFamily: 'CabinetGrotesk-Black',
+                          color: '#000',
+                          fontSize: 24,
+                        }}>
+                        ✔️ Right answers:
+                      </Text>
                     </View>
-                    <Text>3</Text>
+                    <Text
+                      style={{
+                        fontFamily: 'CabinetGrotesk-Black',
+                        color: '#000',
+                        fontSize: 24,
+                      }}>
+                      3
+                    </Text>
                   </View>
                   <View
                     style={{
@@ -592,9 +672,23 @@ const Quiz = ({navigation}) => {
                       justifyContent: 'space-between',
                     }}>
                     <View>
-                      <Text>❌ Wrong answers:</Text>
+                      <Text
+                        style={{
+                          fontFamily: 'CabinetGrotesk-Black',
+                          color: '#000',
+                          fontSize: 24,
+                        }}>
+                        ❌ Wrong answers:
+                      </Text>
                     </View>
-                    <Text>2</Text>
+                    <Text
+                      style={{
+                        fontFamily: 'CabinetGrotesk-Black',
+                        color: '#000',
+                        fontSize: 24,
+                      }}>
+                      2
+                    </Text>
                   </View>
                 </View>
                 <View
@@ -613,14 +707,21 @@ const Quiz = ({navigation}) => {
                 backgroundColor={bgfn(0).bg}
                 name="bruce"
                 onPress={() => {
-                  navigation.navigate('Home');
+                  navigation.replace('Home');
                 }}
                 type="primary">
                 <Image
                   source={require('../components/leave.png')}
                   style={{width: 32, height: 32}}
                 />
-                <Text style={{fontSize: 24}}>&nbsp;Leave</Text>
+                <Text
+                  style={{
+                    fontSize: 22,
+                    fontFamily: 'CabinetGrotesk-Black',
+                    color: 'rgba(87, 21, 48, 1)',
+                  }}>
+                  &nbsp;Leave
+                </Text>
               </ThemedButton>
             </Modal>
           </View>
@@ -652,7 +753,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: '600',
     color: 'white',
   },
   question: {
@@ -660,7 +760,6 @@ const styles = StyleSheet.create({
   },
   opt: {
     fontSize: 18,
-    fontWeight: '500',
     color: 'white',
   },
   optButton: {
