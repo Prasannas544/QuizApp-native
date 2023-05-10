@@ -15,36 +15,35 @@ const staticImage = require('../components/resul-bg.png');
 
 const Result = ({navigation, route}) => {
   // const params = route.params;
-  params = {score: 69};
+  params = {score: 85};
 
   const resultPrompt = () => {
     let score = parseInt(params.score);
-    switch (score) {
-      case (score <= 40):
-        return {
-          txt: 'Try harder or die',
-          img: require('../components/pg1.png'),
-        };
-      case (score <= 60):
-        return {
-          txt: 'Could do better,You know',
-          img: require('../components/pg2.png'),
-        };
-      case (score <= 80):
-        return {
-          txt: 'Very Good, nearly brilliant',
-          img: require('../components/pg3.png'),
-        };
-      case (score <= 100):
-        return {
-          txt: 'Excellent,Never seen before',
-          img: require('../components/pg4.png'),
-        };
-      default:
-        return {txt: 'IDK what to say', img: require('../components/pg4.png')};
+    if (score <= 40) {
+      return {
+        txt: 'Try harder or die !!',
+        img: require('../components/pg2.png'),
+      };
+    } else if (score <= 60) {
+      return {
+        txt: 'Could do better, You know !',
+        img: require('../components/pg3.png'),
+      };
+    } else if (score <= 80) {
+      return {
+        txt: 'Very Good, nearly brilliant !!',
+        img: require('../components/pg4.png'),
+      };
+    } else if (score <= 100) {
+      return {
+        txt: 'Excellent !!!, Never seen before !',
+        img: require('../components/pg1.png'),
+      };
+    } else {
+      return {txt: 'IDK what to say', img: require('../components/pg3.png')};
     }
   };
-  const {txt, img} = resultPrompt();
+  const res = resultPrompt();
 
   return (
     <ImageBackground
@@ -92,17 +91,19 @@ const Result = ({navigation, route}) => {
           <Text
             style={{
               marginTop: -30,
+              marginLeft:-6,
               width: '40%',
               fontFamily: 'CabinetGrotesk-Black',
               fontSize: 16,
               color: '#102940',
+              textAlign:'center'
             }}>
-            {txt}
+            {res.txt}
           </Text>
         </ImageBackground>
         <View style={{width: '50%', height: '50%', position: 'relative'}}>
           <Image
-            source={img}
+            source={res.img}
             style={{
               position: 'absolute',
               bottom: -180,
@@ -114,11 +115,11 @@ const Result = ({navigation, route}) => {
           />
         </View>
       </View>
-      <View style={{alignSelf: 'center', bottom: 20, position: 'absolute'}}>
+      <View style={{alignSelf: 'center', bottom: 30, position: 'absolute'}}>
         <ThemedButton
           width={250}
           raiseLevel={4}
-          backgroundColor="red"
+          backgroundColor="#e30707"
           borderColor="#102940"
           backgroundDarker="#102940"
           name="bruce"

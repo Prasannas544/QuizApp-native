@@ -7,52 +7,69 @@ const staticImage = require('../components/App.png');
 
 const Home = ({navigation}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {flex: 1, position: 'relative'}]}>
       {/* <Title /> */}
 
       <View>
         <Image
-          source={require('../components/logo.png')}
-          style={{width: 300, height: 350, margin: 50, alignSelf: 'center'}}
-          resizeMode="cover"
+          source={require('../components/Group.png')}
+          style={{width: 300, height: 250, margin: 20, alignSelf: 'center'}}
+          resizeMode="contain"
         />
       </View>
-      <ThemedButton
-        width={300}
-        height={130}
-        raiseLevel={3}       
-        style={{display: 'flex', alignSelf: 'center', marginBottom: 20}}
-        name="bruce"
-        type="primary">
-        <View style={styles.bannerContainer}>
-          <Image
-            source={staticImage}
-            style={styles.banner}
-            resizeMode="center"
-            resizeMethod="scale"
-          />
-        </View>
-      </ThemedButton>
 
-      <ThemedButton
-        width={250}
-        style={{display: 'flex', alignSelf: 'center', marginBottom: 20}}
-        name="bruce"
-        onPress={() =>
-          setTimeout(function () {
-            navigation.navigate('Quiz');
-          }, 500)
-        }
-        type="anchor">
+      <View
+        style={{alignSelf: 'center', paddingTop: 20, paddingHorizontal: '5%'}}>
         <Text
           style={{
-            fontSize: 24,
+            fontSize: 20,
+            textAlign: 'center',
             fontFamily: 'CabinetGrotesk-Black',
             color: '#000',
           }}>
-          Start
+          Are you worthy to onboard the team of Penguins of Madagascar ?
         </Text>
-      </ThemedButton>
+      </View>
+      <View style={{position: 'absolute', bottom: 150, alignSelf: 'center'}}>
+        <ThemedButton
+          width={300}
+          height={130}
+          raiseLevel={3}
+          style={{display: 'flex', alignSelf: 'center'}}
+          name="bruce"
+          type="primary">
+          <View style={styles.bannerContainer}>
+            <Image
+              source={staticImage}
+              style={styles.banner}
+              resizeMode="center"
+              resizeMethod="scale"
+            />
+          </View>
+        </ThemedButton>
+      </View>
+      <View style={{position: 'absolute', bottom: 30, alignSelf: 'center'}}>
+        <ThemedButton
+          width={250}
+          backgroundColor="#ff8400"
+          style={{display: 'flex', alignSelf: 'center'}}
+          name="bruce"
+          onPress={() =>
+            setTimeout(function () {
+              navigation.replace('Quiz');
+            }, 500)
+          }
+          type="anchor">
+          <Text
+            style={{
+              fontSize: 24,
+              fontFamily: 'CabinetGrotesk-Black',
+              color: '#000',
+            }}>
+            Start
+          </Text>
+        </ThemedButton>
+      </View>
     </View>
   );
 };
