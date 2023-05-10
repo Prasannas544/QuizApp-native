@@ -1,4 +1,13 @@
-import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import Modal from 'react-native-modal';
+
 import React, {useEffect, useState} from 'react';
 import {ThemedButton} from 'react-native-really-awesome-button';
 import {useWindowDimensions} from 'react-native';
@@ -6,14 +15,15 @@ import {useWindowDimensions} from 'react-native';
 const Quiz = ({navigation}) => {
   const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
-  const endTime = 30000;
 
   const [questions, setQuestions] = useState();
   const [ques, setQues] = useState(0);
   const [options, setOptions] = useState();
   const [score, setScore] = useState(0);
   const [isLoading, setisLoading] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(30000);
+  const [timerCount, setTimer] = useState(120);
+  const [showModal, setShowModal] = useState(false);
+  const [showStats, setShowStats] = useState(false);
 
   const shuffleArray = array => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -22,22 +32,23 @@ const Quiz = ({navigation}) => {
     }
   };
 
-  function calculateTimeLeft() {
-    const difference = endTime - timeLeft;
-    let seconds = {};
-
-    if (difference > 0) {
-      seconds = Math.floor((difference / 1000) % 60);
-    }
-
-    return seconds;
-  }
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-    return () => clearInterval( );
+    let interval = setInterval(() => {
+      setTimer(lastTimerCount => {
+        lastTimerCount <= 1 && clearInterval(interval);
+        return lastTimerCount - 1;
+      });
+    }, 1000); //each count lasts for a second
+    //cleanup the interval on complete
+    if (timerCount <= 0) {
+      clearInterval(interval);
+      navigation.navigate('Result', {score: score});
+    }
+    return () => clearInterval(interval);
   });
 
   const getQuiz = async () => {
@@ -213,6 +224,11 @@ const Quiz = ({navigation}) => {
       setTimeout(function () {
         handleNextPress();
       }, 500);
+
+    if (ques == 9)
+      setTimeout(function () {
+        navigation.navigate('Result', {score: score});
+      }, 500);
   };
 
   const bgfn = idx => {
@@ -246,7 +262,7 @@ const Quiz = ({navigation}) => {
         </View>
       ) : (
         questions && (
-          <View style={{height: '100%'}}>
+          <View style={{height: '100%', backgroundColor: '#fff9e4'}}>
             <View
               class="topBar"
               style={{
@@ -271,7 +287,9 @@ const Quiz = ({navigation}) => {
                 raiseLevel={3}
                 backgroundColor={bgfn(2).bg}
                 name="bruce"
-                onPress={() => {}}
+                onPress={() => {
+                  setShowStats(true);
+                }}
                 type="anchor">
                 <Image
                   source={require('../components/stats.png')}
@@ -298,7 +316,7 @@ const Quiz = ({navigation}) => {
               <Text>Score : {score}</Text>
               <View>
                 <Text style={{color: '#000'}}>
-                  {timeLeft.minutes}:{timeLeft.seconds} ⏲️
+                  {Math.floor(timerCount / 60)}:{timerCount % 60} ⏲️
                 </Text>
               </View>
             </View>
@@ -331,6 +349,7 @@ const Quiz = ({navigation}) => {
                     onPress={() => {
                       handleSelectedOption(opt);
                     }}
+                    key={i}
                     type="anchor">
                     <Text style={{}}>
                       {optArr[i]}) &nbsp;
@@ -339,35 +358,271 @@ const Quiz = ({navigation}) => {
                   </ThemedButton>
                 ))}
             </View>
-
-            <View
+            <TouchableWithoutFeedback onPress={() => toggleModal()}>
+              <View
+                style={{
+                  width: windowWidth,
+                  borderTopRightRadius: 16,
+                  borderTopLeftRadius: 16,
+                  backgroundColor: '#fff',
+                  borderTopWidth: 5,
+                  borderTopColor: '#000',
+                  position: 'absolute',
+                  bottom: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingVertical: windowHeight * 0.02,
+                }}>
+                <Image
+                  source={require('../components/up-chevron.png')}
+                  style={{height: 32, width: 32}}
+                />
+                <Text
+                  style={{
+                    fontFamily: 'Space Grotesk ',
+                    fontSize: 24,
+                    fontWeight: 700,
+                  }}>
+                  Powerups
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+            <Modal
+              isVisible={showModal}
+              onBackdropPress={toggleModal}
+              animationIn="slideInUp"
+              animationOut="slideOutDown"
               style={{
-                width: windowWidth,
-                borderTopRightRadius: 16,
-                borderTopLeftRadius: 16,
-                backgroundColor: '#fff',
-                borderTopWidth: 5,
-                borderTopColor: '#000',
                 position: 'absolute',
                 bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                paddingVertical: windowHeight * 0.02,
+                margin: 0,
+                alignSelf: 'center',
+                width: windowWidth,
+                borderRadius: 16,
+                backgroundColor: '#FFF',
               }}>
-              <Image
-                source={require('../components/up-chevron.png')}
-                style={{height: 32, width: 32}}
-              />
-              <Text
+              <View
                 style={{
-                  fontFamily: 'Space Grotesk ',
-                  fontSize: 24,
-                  fontWeight: 700,
+                  borderTopRightRadius: 16,
+                  borderTopLeftRadius: 16,
+                  backgroundColor: '#fff',
+                  borderTopWidth: 5,
+                  borderTopColor: '#000',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingVertical: windowHeight * 0.02,
                 }}>
-                Powerups
-              </Text>
-            </View>
+                <Image
+                  source={require('../components/up-chevron.png')}
+                  style={{height: 32, width: 32}}
+                />
+                <Text
+                  style={{
+                    fontFamily: 'Space Grotesk ',
+                    fontSize: 24,
+                    fontWeight: 700,
+                  }}>
+                  Powerups
+                </Text>
+                <View
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    flexDirection: 'row',
+                    width: '100%',
+                    padding: 20,
+                  }}>
+                  <ThemedButton
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    width={45}
+                    height={42}
+                    raiseLevel={3}
+                    backgroundColor={bgfn(0).bg}
+                    name="bruce"
+                    onPress={() => {}}
+                    type="anchor">
+                    <Image
+                      source={require('../components/trashcan.png')}
+                      style={{width: 20, height: 20}}
+                      resizeMode="contain"
+                    />
+                  </ThemedButton>
+                  <ThemedButton
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    width={45}
+                    height={42}
+                    raiseLevel={3}
+                    backgroundColor={bgfn(1).bg}
+                    name="bruce"
+                    onPress={() => {}}
+                    type="anchor">
+                    <Image
+                      source={require('../components/light.png')}
+                      style={{width: 20, height: 20}}
+                      resizeMode="contain"
+                    />
+                  </ThemedButton>
+                  <ThemedButton
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    width={45}
+                    height={42}
+                    raiseLevel={3}
+                    backgroundColor={bgfn(2).bg}
+                    name="bruce"
+                    onPress={() => {}}
+                    type="anchor">
+                    <Image
+                      source={require('../components/2x.png')}
+                      style={{width: 20, height: 20}}
+                      resizeMode="contain"
+                    />
+                  </ThemedButton>
+                  <ThemedButton
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    width={45}
+                    height={42}
+                    raiseLevel={3}
+                    backgroundColor={bgfn(3).bg}
+                    name="bruce"
+                    onPress={() => {}}
+                    type="anchor">
+                    <Image
+                      source={require('../components/divide.png')}
+                      style={{width: 20, height: 20}}
+                      resizeMode="contain"
+                    />
+                  </ThemedButton>
+                </View>
+              </View>
+            </Modal>
+
+            <Modal
+              isVisible={showStats}
+              animationIn="slideInLeft"
+              animationOut="slideOutLeft"
+              style={{
+                borderTopRightRadius: 10,
+                borderBottomRightRadius: 10,
+                position: 'absolute',
+                top: 0,
+                height: windowHeight,
+                width: windowWidth * 0.8,
+                margin: 0,
+                alignSelf: 'flex-start',
+                backgroundColor: '#FFF',
+              }}>
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: '#fff9e4',
+                  borderTopRightRadius: 10,
+                  borderBottomRightRadius: 10,
+                }}>
+                <View
+                  class="topBar"
+                  style={{
+                    borderTopRightRadius: 10,
+                    height: windowHeight * 0.1,
+                    backgroundColor: '#fff',
+                    borderBottomWidth: 4,
+                    borderBottomColor: '#000',
+                    width: windowWidth * 0.8,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    paddingHorizontal: windowWidth * 0.03,
+                    paddingVertical: windowHeight * 0.02,
+                  }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setShowStats(false);
+                    }}>
+                    <Image
+                      source={require('../components/x-icon.png')}
+                      style={{width: 42, height: 42}}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={{display: 'flex', padding: windowWidth * 0.05}}>
+                  <Text>Stats</Text>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <View>
+                      <Text>Answered:</Text>
+                    </View>
+                    <Text>5</Text>
+                  </View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <View>
+                      <Text>✔️ Right answers:</Text>
+                    </View>
+                    <Text>3</Text>
+                  </View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <View>
+                      <Text>❌ Wrong answers:</Text>
+                    </View>
+                    <Text>2</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    alignSelf: 'center',
+                    width: windowWidth * 0.72,
+                    height: 4,
+                    backgroundColor: '#000',
+                  }}></View>
+              </View>
+              <ThemedButton
+                style={{position: 'absolute', bottom: 20, alignSelf: 'center'}}
+                width={150}
+                height={60}
+                raiseLevel={5}
+                backgroundColor={bgfn(0).bg}
+                name="bruce"
+                onPress={() => {
+                  navigation.navigate('Home');
+                }}
+                type="primary">
+                <Image
+                  source={require('../components/leave.png')}
+                  style={{width: 32, height: 32}}
+                />
+                <Text style={{fontSize: 24}}>&nbsp;Leave</Text>
+              </ThemedButton>
+            </Modal>
           </View>
         )
       )}
