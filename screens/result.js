@@ -1,4 +1,5 @@
 import {
+  Image,
   ImageBackground,
   StyleSheet,
   Text,
@@ -15,9 +16,42 @@ const staticImage = require('../components/resul-bg.png');
 const Result = ({navigation, route}) => {
   // const params = route.params;
   params = {score: 69};
+
+  const resultPrompt = () => {
+    let score = parseInt(params.score);
+    switch (score) {
+      case (score <= 40):
+        return {
+          txt: 'Try harder or die',
+          img: require('../components/pg1.png'),
+        };
+      case (score <= 60):
+        return {
+          txt: 'Could do better,You know',
+          img: require('../components/pg2.png'),
+        };
+      case (score <= 80):
+        return {
+          txt: 'Very Good, nearly brilliant',
+          img: require('../components/pg3.png'),
+        };
+      case (score <= 100):
+        return {
+          txt: 'Excellent,Never seen before',
+          img: require('../components/pg4.png'),
+        };
+      default:
+        return {txt: 'IDK what to say', img: require('../components/pg4.png')};
+    }
+  };
+  const {txt, img} = resultPrompt();
+
   return (
-    <View style={{position: 'relative', flex: 1, backgroundColor: '#fff9e4'}}>
-      <View style={[styles.bannerContainer, {paddingTop: 50}]}>
+    <ImageBackground
+      style={{position: 'relative', flex: 1}}
+      source={require('../components/res-bg.jpg')}
+      resizeMode="cover">
+      <View style={[styles.bannerContainer, {paddingTop: 10}]}>
         <ImageBackground
           source={staticImage}
           style={styles.banner}
@@ -44,29 +78,66 @@ const Result = ({navigation, route}) => {
           </View>
         </ImageBackground>
       </View>
-      <Lottie
-        style={{marginTop: 85}}
-        source={require('../components/penguin.json')}
-        autoPlay
-        loop
-      />
+
+      <View style={{flexDirection: 'row'}}>
+        <ImageBackground
+          source={require('../components/res-dialog.png')}
+          resizeMode="contain"
+          style={{
+            width: 250,
+            height: 250,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text
+            style={{
+              marginTop: -30,
+              width: '40%',
+              fontFamily: 'CabinetGrotesk-Black',
+              fontSize: 16,
+              color: '#102940',
+            }}>
+            {txt}
+          </Text>
+        </ImageBackground>
+        <View style={{width: '50%', height: '50%', position: 'relative'}}>
+          <Image
+            source={img}
+            style={{
+              position: 'absolute',
+              bottom: -180,
+              left: -100,
+              width: '100%',
+              height: '100%',
+            }}
+            resizeMode="contain"
+          />
+        </View>
+      </View>
       <View style={{alignSelf: 'center', bottom: 20, position: 'absolute'}}>
         <ThemedButton
           width={250}
           raiseLevel={4}
-          backgroundColor="#3C9BF2"
+          backgroundColor="red"
           borderColor="#102940"
           backgroundDarker="#102940"
           name="bruce"
           type="anchor"
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => navigation.replace('Home')}>
           <Text
-            style={[styles.buttonText, {fontFamily: 'CabinetGrotesk-Black'}]}>
+            style={[
+              styles.buttonText,
+              {
+                fontFamily: 'CabinetGrotesk-Black',
+                fontSize: 24,
+                color: '#fff',
+              },
+            ]}>
             Home
           </Text>
         </ThemedButton>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 

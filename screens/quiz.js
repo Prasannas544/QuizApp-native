@@ -22,7 +22,7 @@ const Quiz = ({navigation}) => {
   const [options, setOptions] = useState();
   const [score, setScore] = useState(0);
   const [isLoading, setisLoading] = useState(false);
-  const [timerCount, setTimer] = useState(120);
+  const [timerCount, setTimer] = useState(122);
   const [showModal, setShowModal] = useState(false);
   const [showStats, setShowStats] = useState(false);
 
@@ -323,22 +323,37 @@ const Quiz = ({navigation}) => {
             <View
               style={{
                 paddingHorizontal: windowWidth * 0.05,
-                paddingTop: windowHeight * 0.03,
-                paddingBottom: windowHeight * 0.01,
+                paddingTop: windowHeight * 0.02,
+                paddingBottom: windowHeight * 0.02,
                 display: 'flex',
                 flexDirection: 'row',
+                alignItems: 'center',
                 justifyContent: 'space-between',
               }}>
-              <View>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={require('../components/interrogation.png')}
+                  style={{height: 24, width: 24}}
+                />
                 <Text
                   style={{fontFamily: 'CabinetGrotesk-Black', color: '#000'}}>
-                  ❔{ques}/{questions.length}
+                  {ques}/{questions.length}
                 </Text>
               </View>
               <Text style={{fontFamily: 'CabinetGrotesk-Black', color: '#000'}}>
                 Score : {score}
               </Text>
-              <View>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
                 <Text
                   style={{
                     color: '#000',
@@ -349,8 +364,11 @@ const Quiz = ({navigation}) => {
                   {timerCount % 60 < 10
                     ? `0${timerCount % 60}`
                     : timerCount % 60}{' '}
-                  ⏲️
                 </Text>
+                <Image
+                  source={require('../components/clock.png')}
+                  style={{height: 24, width: 24}}
+                />
               </View>
             </View>
 
@@ -637,7 +655,7 @@ const Quiz = ({navigation}) => {
                         color: '#000',
                         fontSize: 24,
                       }}>
-                      5
+                      {ques}
                     </Text>
                   </View>
                   <View
@@ -646,14 +664,18 @@ const Quiz = ({navigation}) => {
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                     }}>
-                    <View>
+                    <View style={{flexDirection: 'row'}}>
+                      <Image
+                        source={require('../components/check-side.png')}
+                        style={{height: 30, width: 30}}
+                      />
                       <Text
                         style={{
                           fontFamily: 'CabinetGrotesk-Black',
                           color: '#000',
                           fontSize: 24,
                         }}>
-                        ✔️ Right answers:
+                        Right answers:
                       </Text>
                     </View>
                     <Text
@@ -662,7 +684,7 @@ const Quiz = ({navigation}) => {
                         color: '#000',
                         fontSize: 24,
                       }}>
-                      3
+                      {score / 10}
                     </Text>
                   </View>
                   <View
@@ -671,14 +693,18 @@ const Quiz = ({navigation}) => {
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                     }}>
-                    <View>
+                    <View style={{flexDirection: 'row'}}>
+                      <Image
+                        source={require('../components/x-side.png')}
+                        style={{height: 30, width: 30}}
+                      />
                       <Text
                         style={{
                           fontFamily: 'CabinetGrotesk-Black',
                           color: '#000',
                           fontSize: 24,
                         }}>
-                        ❌ Wrong answers:
+                        Wrong answers:
                       </Text>
                     </View>
                     <Text
@@ -687,7 +713,7 @@ const Quiz = ({navigation}) => {
                         color: '#000',
                         fontSize: 24,
                       }}>
-                      2
+                      {ques - score / 10}
                     </Text>
                   </View>
                 </View>

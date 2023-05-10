@@ -17,14 +17,22 @@ const Home = ({navigation}) => {
           resizeMode="cover"
         />
       </View>
-      <View style={styles.bannerContainer}>
-        <Image
-          source={staticImage}
-          style={styles.banner}
-          resizeMode="center"
-          resizeMethod="scale"
-        />
-      </View>
+      <ThemedButton
+        width={300}
+        height={130}
+        raiseLevel={3}       
+        style={{display: 'flex', alignSelf: 'center', marginBottom: 20}}
+        name="bruce"
+        type="primary">
+        <View style={styles.bannerContainer}>
+          <Image
+            source={staticImage}
+            style={styles.banner}
+            resizeMode="center"
+            resizeMethod="scale"
+          />
+        </View>
+      </ThemedButton>
 
       <ThemedButton
         width={250}
@@ -53,7 +61,7 @@ export default Home;
 
 const styles = StyleSheet.create({
   banner: {
-    marginBottom: 80,
+    // marginBottom: 80,
     height: 130,
     width: 300,
   },
