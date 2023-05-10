@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Lottie from 'lottie-react-native';
 
 import React from 'react';
 import {ThemedButton} from 'react-native-really-awesome-button';
@@ -14,8 +13,8 @@ import {ThemedButton} from 'react-native-really-awesome-button';
 const staticImage = require('../components/resul-bg.png');
 
 const Result = ({navigation, route}) => {
-  // const params = route.params;
-  params = {score: 85};
+  const params = route.params;
+  // params = {score: 85};
 
   const resultPrompt = () => {
     let score = parseInt(params.score);
