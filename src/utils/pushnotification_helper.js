@@ -1,6 +1,37 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+let endpointUrl =
+  'https://m42voquwh7.execute-api.ap-south-1.amazonaws.com/send-device-code';
+
+const handleSubmit = async fcmtoken => {
+  let payload = {
+    user_name: 'ashu',
+    device_id: fcmtoken,
+  };
+
+  apiCall(payload);
+};
+
+const apiCall = async postData => {
+  const requestOptions = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(postData),
+  };
+
+  fetch(endpointUrl, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      if (data.status == 200) {
+        console.log("data sent")
+      } else {
+        alert('retry after some time');
+      }
+    })
+    .catch(error => console.error(error));
+};
+
 export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
   const enabled =
@@ -16,6 +47,8 @@ export async function requestUserPermission() {
 async function getFCMToke() {
   let fcmtoken = await AsyncStorage.getItem('fcmtoken');
   console.log(fcmtoken, 'old token');
+  handleSubmit(fcmtoken);
+
   if (!fcmtoken) {
     try {
       let fcmtoken = await messaging().getToken();
