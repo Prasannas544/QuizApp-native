@@ -13,6 +13,7 @@ import { ThemedButton } from 'react-native-really-awesome-button';
 import { useWindowDimensions } from 'react-native';
 import Loader from '../components/loader';
 import Lottie from 'lottie-react-native';
+import TopBar from '../components/TopBar';
 
 const Quiz = ({ navigation }) => {
   const windowWidth = useWindowDimensions().width;
@@ -265,44 +266,8 @@ const Quiz = ({ navigation }) => {
       ) : (
         questions && (
           <View style={{ height: '100%', backgroundColor: '#fff9e4' }}>
-            <View
-              class="topBar"
-              style={{
-                height: windowHeight * 0.1,
-                backgroundColor: '#fff',
-                borderBottomWidth: 4,
-                borderBottomColor: '#000',
-                width: windowWidth,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingHorizontal: windowWidth * 0.03,
-                paddingVertical: windowHeight * 0.02,
-              }}>
-              <Image
-                source={require('../components/menu-icon.png')}
-                style={{ width: 42, height: 42 }}
-              />
-              <ThemedButton
-                width={112}
-                height={42}
-                raiseLevel={5}
-                backgroundColor={bgfn(2).bg}
-                name="bruce"
-                onPress={() => {
-                  setShowStats(true);
-                }}
-                type="anchor">
-                <Image
-                  source={require('../components/stats.png')}
-                  style={{ width: 17, height: 22 }}
-                />
-                <Text
-                  style={{ fontFamily: 'CabinetGrotesk-Bold', color: '#000' }}>
-                  &nbsp;Stats
-                </Text>
-              </ThemedButton>
-            </View>
+            <TopBar setShowStats={setShowStats} bgfn={bgfn} />
+
 
             <View
               style={{
@@ -362,6 +327,8 @@ const Quiz = ({ navigation }) => {
                 height: 4,
                 backgroundColor: '#000',
               }}></View>
+
+            {/* question */}
             <View style={[styles.que, { paddingHorizontal: windowWidth * 0.05 }]}>
               <Text
                 style={[
@@ -375,6 +342,8 @@ const Quiz = ({ navigation }) => {
                 Q. {decodeURIComponent(questions[ques].question)}
               </Text>
             </View>
+
+            {/* Options */}
             <View
               style={[styles.option, { paddingHorizontal: windowWidth * 0.05 }]}>
               {options &&
@@ -406,6 +375,8 @@ const Quiz = ({ navigation }) => {
                   </ThemedButton>
                 ))}
             </View>
+
+            {/* PowerUps */}
             <TouchableWithoutFeedback onPress={() => toggleModal()}>
               <View
                 style={{
@@ -436,6 +407,7 @@ const Quiz = ({ navigation }) => {
                 </Text>
               </View>
             </TouchableWithoutFeedback>
+
             <Modal
               isVisible={showModal}
               onBackdropPress={toggleModal}
@@ -753,6 +725,7 @@ const Quiz = ({ navigation }) => {
                 </Text>
               </ThemedButton>
             </Modal>
+
           </View>
         )
       )}
