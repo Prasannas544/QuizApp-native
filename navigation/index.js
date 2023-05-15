@@ -11,6 +11,11 @@ const MyStack = () => {
     <Stack.Navigator>
   
       <Stack.Screen
+        name="onboard"
+        component={OnBoard}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="Home"
         component={Home}
         options={{ headerShown: false }}
