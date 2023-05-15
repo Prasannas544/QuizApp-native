@@ -40,19 +40,20 @@ export async function requestUserPermission() {
 
   if (enabled) {
     console.log('Authorization status:', authStatus);
-    getFCMToke();
+    getFCMToken();
   }
 }
 
-async function getFCMToke() {
+async function getFCMToken() {
   let fcmtoken = await AsyncStorage.getItem('fcmtoken');
-  console.log(fcmtoken, 'old token');
-  handleSubmit(fcmtoken);
+  // let fcmtoken=null
+  console.log(fcmtoken, 'old token'); 
 
   if (!fcmtoken) {
     try {
       let fcmtoken = await messaging().getToken();
       if (fcmtoken) {
+        handleSubmit(fcmtoken);
         console.log(fcmtoken, 'new token');
         await AsyncStorage.setItem('fcmtoken', fcmtoken);
       }

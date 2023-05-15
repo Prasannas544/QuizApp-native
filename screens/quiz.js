@@ -8,12 +8,13 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 
-import React, {useEffect, useState} from 'react';
-import {ThemedButton} from 'react-native-really-awesome-button';
-import {useWindowDimensions} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ThemedButton } from 'react-native-really-awesome-button';
+import { useWindowDimensions } from 'react-native';
+import Loader from '../components/loader';
 import Lottie from 'lottie-react-native';
 
-const Quiz = ({navigation}) => {
+const Quiz = ({ navigation }) => {
   const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
 
@@ -25,6 +26,7 @@ const Quiz = ({navigation}) => {
   const [timerCount, setTimer] = useState(120);
   const [showModal, setShowModal] = useState(false);
   const [showStats, setShowStats] = useState(false);
+  const [isButtonDisabled, setisButtonDisabled] = useState(false);
 
   const shuffleArray = array => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -47,7 +49,7 @@ const Quiz = ({navigation}) => {
     //cleanup the interval on complete
     if (timerCount <= 0) {
       clearInterval(interval);
-      navigation.navigate('Result', {score: score});
+      navigation.navigate('Result', { score: score });
     }
     return () => clearInterval(interval);
   });
@@ -218,6 +220,9 @@ const Quiz = ({navigation}) => {
   };
 
   const handleSelectedOption = _option => {
+    setisButtonDisabled(true)
+    setTimeout(() => setisButtonDisabled(false), 500);
+
     if (_option === questions[ques].correct_answer) {
       setScore(score + 10);
     }
@@ -228,20 +233,20 @@ const Quiz = ({navigation}) => {
 
     if (ques == 9)
       setTimeout(function () {
-        navigation.navigate('Result', {score: score});
+        navigation.navigate('Result', { score: score });
       }, 500);
   };
 
   const bgfn = idx => {
     switch (idx) {
       case 0:
-        return {bg: '#F03986', bd: 'rgba(87, 21, 48, 1)'};
+        return { bg: '#F03986', bd: 'rgba(87, 21, 48, 1)' };
       case 1:
-        return {bg: '#43DD65', bd: 'rgba(21, 69, 31, 1)'};
+        return { bg: '#43DD65', bd: 'rgba(21, 69, 31, 1)' };
       case 2:
-        return {bg: '#F2CA3C', bd: 'rgba(64, 53, 16, 1))'};
+        return { bg: '#F2CA3C', bd: 'rgba(64, 53, 16, 1))' };
       case 3:
-        return {bg: '#3C9BF2', bd: 'rgba(22, 57, 89, 1)'};
+        return { bg: '#3C9BF2', bd: 'rgba(22, 57, 89, 1)' };
       default:
         return '#3C9BF2';
     }
@@ -256,32 +261,10 @@ const Quiz = ({navigation}) => {
         width: windowWidth,
       }}>
       {isLoading ? (
-        <View
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: windowHeight,
-            backgroundColor: '#fff9e4',
-          }}>
-          <Lottie
-            style={{width: 150}}
-            source={require('../components/loader-bat.json')}
-            autoPlay
-            loop
-          />
-          <Text
-            style={{
-              fontFamily: 'CabinetGrotesk-Black',
-              color: '#000',
-              fontSize: 16,
-            }}>
-            Kowaloski Analysis !!
-          </Text>
-        </View>
+        <Loader />
       ) : (
         questions && (
-          <View style={{height: '100%', backgroundColor: '#fff9e4'}}>
+          <View style={{ height: '100%', backgroundColor: '#fff9e4' }}>
             <View
               class="topBar"
               style={{
@@ -298,7 +281,7 @@ const Quiz = ({navigation}) => {
               }}>
               <Image
                 source={require('../components/menu-icon.png')}
-                style={{width: 42, height: 42}}
+                style={{ width: 42, height: 42 }}
               />
               <ThemedButton
                 width={112}
@@ -312,10 +295,10 @@ const Quiz = ({navigation}) => {
                 type="anchor">
                 <Image
                   source={require('../components/stats.png')}
-                  style={{width: 17, height: 22}}
+                  style={{ width: 17, height: 22 }}
                 />
                 <Text
-                  style={{fontFamily: 'CabinetGrotesk-Bold', color: '#000'}}>
+                  style={{ fontFamily: 'CabinetGrotesk-Bold', color: '#000' }}>
                   &nbsp;Stats
                 </Text>
               </ThemedButton>
@@ -339,14 +322,14 @@ const Quiz = ({navigation}) => {
                 }}>
                 <Image
                   source={require('../components/interrogation.png')}
-                  style={{height: 24, width: 24}}
+                  style={{ height: 24, width: 24 }}
                 />
                 <Text
-                  style={{fontFamily: 'CabinetGrotesk-Black', color: '#000'}}>
+                  style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000' }}>
                   {ques}/{questions.length}
                 </Text>
               </View>
-              <Text style={{fontFamily: 'CabinetGrotesk-Black', color: '#000'}}>
+              <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000' }}>
                 Score : {score}
               </Text>
               <View
@@ -367,7 +350,7 @@ const Quiz = ({navigation}) => {
                 </Text>
                 <Image
                   source={require('../components/clock.png')}
-                  style={{height: 24, width: 24}}
+                  style={{ height: 24, width: 24 }}
                 />
               </View>
             </View>
@@ -379,7 +362,7 @@ const Quiz = ({navigation}) => {
                 height: 4,
                 backgroundColor: '#000',
               }}></View>
-            <View style={[styles.que, {paddingHorizontal: windowWidth * 0.05}]}>
+            <View style={[styles.que, { paddingHorizontal: windowWidth * 0.05 }]}>
               <Text
                 style={[
                   styles.question,
@@ -393,7 +376,7 @@ const Quiz = ({navigation}) => {
               </Text>
             </View>
             <View
-              style={[styles.option, {paddingHorizontal: windowWidth * 0.05}]}>
+              style={[styles.option, { paddingHorizontal: windowWidth * 0.05 }]}>
               {options &&
                 options.map((opt, i) => (
                   <ThemedButton
@@ -405,6 +388,7 @@ const Quiz = ({navigation}) => {
                     style={styles.optButton}
                     name="bruce"
                     backgroundDarker={bgfn(i).bd}
+                    disabled={isButtonDisabled}
                     onPress={() => {
                       handleSelectedOption(opt);
                     }}
@@ -440,7 +424,7 @@ const Quiz = ({navigation}) => {
                 }}>
                 <Image
                   source={require('../components/up-chevron.png')}
-                  style={{height: 32, width: 32}}
+                  style={{ height: 32, width: 32 }}
                 />
                 <Text
                   style={{
@@ -480,7 +464,7 @@ const Quiz = ({navigation}) => {
                 }}>
                 <Image
                   source={require('../components/up-chevron.png')}
-                  style={{height: 32, width: 32}}
+                  style={{ height: 32, width: 32 }}
                 />
                 <Text
                   style={{
@@ -504,7 +488,7 @@ const Quiz = ({navigation}) => {
                     raiseLevel={3}
                     backgroundColor={bgfn(0).bg}
                     name="bruce"
-                    onPress={() => {}}
+                    onPress={() => { }}
                     type="anchor">
                     <View
                       style={{
@@ -516,7 +500,7 @@ const Quiz = ({navigation}) => {
                       }}>
                       <Image
                         source={require('../components/trashcan.png')}
-                        style={{width: 32, height: 32}}
+                        style={{ width: 32, height: 32 }}
                         resizeMode="contain"
                       />
                     </View>
@@ -527,7 +511,7 @@ const Quiz = ({navigation}) => {
                     raiseLevel={3}
                     backgroundColor={bgfn(1).bg}
                     name="bruce"
-                    onPress={() => {}}
+                    onPress={() => { }}
                     type="anchor">
                     <View
                       style={{
@@ -539,7 +523,7 @@ const Quiz = ({navigation}) => {
                       }}>
                       <Image
                         source={require('../components/light.png')}
-                        style={{width: 32, height: 32}}
+                        style={{ width: 32, height: 32 }}
                         resizeMode="contain"
                       />
                     </View>
@@ -550,7 +534,7 @@ const Quiz = ({navigation}) => {
                     raiseLevel={3}
                     backgroundColor={bgfn(2).bg}
                     name="bruce"
-                    onPress={() => {}}
+                    onPress={() => { }}
                     type="anchor">
                     <View
                       style={{
@@ -562,7 +546,7 @@ const Quiz = ({navigation}) => {
                       }}>
                       <Image
                         source={require('../components/2x.png')}
-                        style={{width: 26, height: 26}}
+                        style={{ width: 26, height: 26 }}
                         resizeMode="contain"
                       />
                     </View>
@@ -573,7 +557,7 @@ const Quiz = ({navigation}) => {
                     raiseLevel={3}
                     backgroundColor={bgfn(3).bg}
                     name="bruce"
-                    onPress={() => {}}
+                    onPress={() => { }}
                     type="anchor">
                     <View
                       style={{
@@ -585,7 +569,7 @@ const Quiz = ({navigation}) => {
                       }}>
                       <Image
                         source={require('../components/divide.png')}
-                        style={{width: 32, height: 32}}
+                        style={{ width: 32, height: 32 }}
                         resizeMode="contain"
                       />
                     </View>
@@ -596,6 +580,7 @@ const Quiz = ({navigation}) => {
 
             <Modal
               isVisible={showStats}
+              onBackdropPress={() => setShowStats(false)}
               animationIn="slideInLeft"
               animationOut="slideOutLeft"
               style={{
@@ -604,7 +589,7 @@ const Quiz = ({navigation}) => {
                 position: 'absolute',
                 top: 0,
                 height: windowHeight,
-                width: windowWidth * 0.9,
+                width: windowWidth * 0.8,
                 margin: 0,
                 alignSelf: 'flex-start',
                 backgroundColor: '#FFF',
@@ -623,7 +608,7 @@ const Quiz = ({navigation}) => {
                     backgroundColor: '#fff',
                     borderBottomWidth: 4,
                     borderBottomColor: '#000',
-                    width: windowWidth * 0.9,
+                    width: windowWidth * 0.8,
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
@@ -636,11 +621,11 @@ const Quiz = ({navigation}) => {
                     }}>
                     <Image
                       source={require('../components/x-icon.png')}
-                      style={{width: 42, height: 42}}
+                      style={{ width: 42, height: 42 }}
                     />
                   </TouchableOpacity>
                 </View>
-                <View style={{display: 'flex', padding: windowWidth * 0.05}}>
+                <View style={{ display: 'flex', padding: windowWidth * 0.05 }}>
                   <Text
                     style={{
                       fontFamily: 'CabinetGrotesk-Black',
@@ -681,10 +666,10 @@ const Quiz = ({navigation}) => {
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                     }}>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{ flexDirection: 'row' }}>
                       <Image
                         source={require('../components/check-side.png')}
-                        style={{height: 30, width: 30}}
+                        style={{ height: 30, width: 30 }}
                       />
                       <Text
                         style={{
@@ -710,10 +695,10 @@ const Quiz = ({navigation}) => {
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                     }}>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{ flexDirection: 'row' }}>
                       <Image
                         source={require('../components/x-side.png')}
-                        style={{height: 30, width: 30}}
+                        style={{ height: 30, width: 30 }}
                       />
                       <Text
                         style={{
@@ -743,7 +728,7 @@ const Quiz = ({navigation}) => {
                   }}></View>
               </View>
               <ThemedButton
-                style={{position: 'absolute', bottom: 20, alignSelf: 'center'}}
+                style={{ position: 'absolute', bottom: 20, alignSelf: 'center' }}
                 width={150}
                 height={60}
                 raiseLevel={5}
@@ -756,7 +741,7 @@ const Quiz = ({navigation}) => {
                 type="primary">
                 <Image
                   source={require('../components/leave.png')}
-                  style={{width: 32, height: 32}}
+                  style={{ width: 32, height: 32 }}
                 />
                 <Text
                   style={{
