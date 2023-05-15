@@ -36,16 +36,17 @@ const AvatarCard = ({ navigation }) => {
     const windowWidth = useWindowDimensions().width;
     const windowHeight = useWindowDimensions().height;
 
-
-
-
-    useEffect(async () => {
-        let user_name = await AsyncStorage.getItem('userName');
-        if (user_name) {
-            navigation.replace('Home', { userName: user_name });
-        }
+    useEffect(() => {
+        route()
     }, [])
 
+    const route = async () => {
+        let user_name = await AsyncStorage.getItem('userName');
+        if (user_name !== null && user_name !== undefined) {
+
+            navigation.replace('Home', { userName: user_name });
+        }
+    }
     const handleSubmit = async () => {
         await AsyncStorage.setItem('userName', text);
         let user_name = await AsyncStorage.getItem('userName');

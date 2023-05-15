@@ -1,18 +1,11 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import MyStack from './navigation';
 
-import {
-  requestUserPermission,
-  NotificationListner,
-} from './src/utils/pushnotification_helper';
 
 const App = () => {
-  useEffect(() => {
-    requestUserPermission();    
-    NotificationListner();
-  }, []);
+
 
   return (
     <NavigationContainer>

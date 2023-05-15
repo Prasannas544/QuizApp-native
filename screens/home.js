@@ -1,25 +1,42 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
-import Title from '../components/title';
-import {ThemedButton} from 'react-native-really-awesome-button';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { ThemedButton } from 'react-native-really-awesome-button';
+import { NotificationListner, requestUserPermission } from '../src/utils/pushnotification_helper';
 
 const staticImage = require('../components/App.png');
 
-const Home = ({navigation}) => {
+const Home = ({ navigation, route }) => {
+  const params = route.params;
+
+  useEffect(() => {
+    requestUserPermission();
+    NotificationListner();
+  }, [])
+
+
   return (
-    <View style={[styles.container, {flex: 1, position: 'relative'}]}>
+    <View style={[styles.container, { flex: 1, position: 'relative' }]}>
       {/* <Title /> */}
 
       <View>
         <Image
           source={require('../components/Group.png')}
-          style={{width: 300, height: 250, margin: 20, alignSelf: 'center'}}
+          style={{ width: 300, height: 250, margin: 20, alignSelf: 'center' }}
           resizeMode="contain"
         />
       </View>
 
       <View
-        style={{alignSelf: 'center', paddingTop: 20, paddingHorizontal: '5%'}}>
+        style={{ alignSelf: 'center', paddingTop: 20, paddingHorizontal: '5%' }}>
+        <Text
+          style={{
+            fontSize: 20,
+            textAlign: 'center',
+            fontFamily: 'CabinetGrotesk-Black',
+            color: '#000',
+            paddingBottom: 10
+          }}>{params.userName} &nbsp;,
+        </Text>
         <Text
           style={{
             fontSize: 20,
@@ -30,12 +47,12 @@ const Home = ({navigation}) => {
           Are you worthy to onboard the team of Penguins of Madagascar ?
         </Text>
       </View>
-      <View style={{position: 'absolute', bottom: 150, alignSelf: 'center'}}>
+      <View style={{ position: 'absolute', bottom: 150, alignSelf: 'center' }}>
         <ThemedButton
           width={300}
           height={130}
           raiseLevel={3}
-          style={{display: 'flex', alignSelf: 'center'}}
+          style={{ display: 'flex', alignSelf: 'center' }}
           name="bruce"
           type="primary">
           <View style={styles.bannerContainer}>
@@ -48,11 +65,11 @@ const Home = ({navigation}) => {
           </View>
         </ThemedButton>
       </View>
-      <View style={{position: 'absolute', bottom: 30, alignSelf: 'center'}}>
+      <View style={{ position: 'absolute', bottom: 30, alignSelf: 'center' }}>
         <ThemedButton
           width={250}
           backgroundColor="#ff8400"
-          style={{display: 'flex', alignSelf: 'center'}}
+          style={{ display: 'flex', alignSelf: 'center' }}
           name="bruce"
           onPress={() =>
             setTimeout(function () {

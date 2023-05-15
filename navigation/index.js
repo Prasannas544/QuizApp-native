@@ -11,7 +11,7 @@ const MyStack = () => {
     <Stack.Navigator>
   
       <Stack.Screen
-        name="onboard"
+        name="onBoard"
         component={OnBoard}
         options={{ headerShown: false }}
       />
