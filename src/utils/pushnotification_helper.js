@@ -4,9 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 let endpointUrl =
   'https://m42voquwh7.execute-api.ap-south-1.amazonaws.com/send-device-code';
 
-const handleSubmit = async fcmtoken => {
+const handleSubmit = async (fcmtoken,userName) => {
   let payload = {
-    user_name: 'ashu',
+    user_name: userName,
     device_id: fcmtoken,
   };
 
@@ -52,8 +52,10 @@ async function getFCMToken() {
   if (!fcmtoken) {
     try {
       let fcmtoken = await messaging().getToken();
+      let userName = await AsyncStorage.getItem('userName');
+
       if (fcmtoken) {
-        handleSubmit(fcmtoken);
+        handleSubmit(fcmtoken,userName);
         console.log(fcmtoken, 'new token');
         await AsyncStorage.setItem('fcmtoken', fcmtoken);
       }
