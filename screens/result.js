@@ -7,15 +7,50 @@ import {
   View,
 } from 'react-native';
 import { playSound } from '../components/utils';
-
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect } from 'react';
 import { ThemedButton } from 'react-native-really-awesome-button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const staticImage = require('../components/resul-bg.png');
 
+
+
 const Result = ({ navigation, route }) => {
   const params = route.params;
-  // params = {score: 85};
+  // params = { score: 85 };
+  useEffect(() => {
+    saveResult()
+  }, [])
+
+  const saveResult = async () => {
+    let userName = await AsyncStorage.getItem('userName')
+    let payload = {
+      user_name: userName,
+      score: params.score,
+      time_taken: 120
+    }
+
+    let endpointUrl =
+      'https://m42voquwh7.execute-api.ap-south-1.amazonaws.com/save-score';
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    };
+
+    fetch(endpointUrl, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status == 200) {
+          console.log("played data sent")
+        } else {
+          alert('retry after some time');
+        }
+      })
+      .catch(error => console.error(error));
+  };
+
 
   const resultPrompt = () => {
     let score = parseInt(params.score);

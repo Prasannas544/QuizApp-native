@@ -50,15 +50,16 @@ const AvatarCard = ({ navigation }) => {
 
     useEffect(() => {
         route()
-        getAvatarData();
 
     }, [])
 
     const route = async () => {
         let user_name = await AsyncStorage.getItem('userName');
         if (user_name !== null && user_name !== undefined) {
-
             navigation.replace('Home', { userName: user_name });
+        } else {
+            getAvatarData();
+
         }
     }
 
@@ -102,7 +103,7 @@ const AvatarCard = ({ navigation }) => {
                         </View>
                         <Image source={{
                             uri: Avatardata[avatar].img,
-                        }} style={styles.topImage} resizeMode='contain' />
+                        }} style={styles.topImage} resizeMode='cover' />
                     </View>
                     <View style={styles.middle}>
 

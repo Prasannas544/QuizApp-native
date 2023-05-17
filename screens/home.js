@@ -43,7 +43,7 @@ const Home = ({ navigation, route }) => {
             fontFamily: 'CabinetGrotesk-Black',
             color: '#000',
             paddingBottom: 10
-          }}>{name} &nbsp;,
+          }}>{name}...
         </Text>
         <Text
           style={{

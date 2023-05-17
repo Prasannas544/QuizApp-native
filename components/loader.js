@@ -27,7 +27,7 @@ const loader = () => {
           color: '#000',
           fontSize: 16,
         }}>
-        Kowaloski Analysis !!
+        Kowalski Analysis !!
       </Text>
     </View>
   );
