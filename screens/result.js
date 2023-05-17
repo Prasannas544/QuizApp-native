@@ -6,13 +6,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { playSound } from '../components/utils';
 
 import React from 'react';
-import {ThemedButton} from 'react-native-really-awesome-button';
+import { ThemedButton } from 'react-native-really-awesome-button';
 
 const staticImage = require('../components/resul-bg.png');
 
-const Result = ({navigation, route}) => {
+const Result = ({ navigation, route }) => {
   const params = route.params;
   // params = {score: 85};
 
@@ -39,22 +40,22 @@ const Result = ({navigation, route}) => {
         img: require('../components/pg1.png'),
       };
     } else {
-      return {txt: 'IDK what to say', img: require('../components/pg3.png')};
+      return { txt: 'IDK what to say', img: require('../components/pg3.png') };
     }
   };
   const res = resultPrompt();
 
   return (
     <ImageBackground
-      style={{position: 'relative', flex: 1}}
+      style={{ position: 'relative', flex: 1 }}
       source={require('../components/res-bg.jpg')}
       resizeMode="cover">
-      <View style={[styles.bannerContainer, {paddingTop: 10}]}>
+      <View style={[styles.bannerContainer, { paddingTop: 10 }]}>
         <ImageBackground
           source={staticImage}
           style={styles.banner}
           resizeMode="contain">
-          <View style={{paddingTop: 10}}>
+          <View style={{ paddingTop: 10 }}>
             <Text
               style={{
                 fontSize: 48,
@@ -77,7 +78,7 @@ const Result = ({navigation, route}) => {
         </ImageBackground>
       </View>
 
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <ImageBackground
           source={require('../components/res-dialog.png')}
           resizeMode="contain"
@@ -90,17 +91,17 @@ const Result = ({navigation, route}) => {
           <Text
             style={{
               marginTop: -30,
-              marginLeft:-6,
+              marginLeft: -6,
               width: '40%',
               fontFamily: 'CabinetGrotesk-Black',
               fontSize: 16,
               color: '#102940',
-              textAlign:'center'
+              textAlign: 'center'
             }}>
             {res.txt}
           </Text>
         </ImageBackground>
-        <View style={{width: '50%', height: '50%', position: 'relative'}}>
+        <View style={{ width: '50%', height: '50%', position: 'relative' }}>
           <Image
             source={res.img}
             style={{
@@ -114,7 +115,7 @@ const Result = ({navigation, route}) => {
           />
         </View>
       </View>
-      <View style={{alignSelf: 'center', bottom: 30, position: 'absolute'}}>
+      <View style={{ alignSelf: 'center', bottom: 30, position: 'absolute' }}>
         <ThemedButton
           width={250}
           raiseLevel={4}
@@ -123,7 +124,7 @@ const Result = ({navigation, route}) => {
           backgroundDarker="#102940"
           name="bruce"
           type="anchor"
-          onPress={() => navigation.replace('Home')}>
+          onPress={() => { playSound(); navigation.replace('Home') }}>
           <Text
             style={[
               styles.buttonText,

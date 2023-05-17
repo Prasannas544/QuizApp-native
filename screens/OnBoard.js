@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, TextInput } from 'react-native'
+import { StyleSheet, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import AvatarCard from '../components/AvatarCard';
 

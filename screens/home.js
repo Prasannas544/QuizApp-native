@@ -1,18 +1,26 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemedButton } from 'react-native-really-awesome-button';
+import { playSound } from '../components/utils';
 import { NotificationListner, requestUserPermission } from '../src/utils/pushnotification_helper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const staticImage = require('../components/App.png');
 
 const Home = ({ navigation, route }) => {
-  const params = route.params;
+
+  const [name, setname] = useState('')
 
   useEffect(() => {
+    getUsername()
     requestUserPermission();
     NotificationListner();
   }, [])
-
+  const getUsername = async () => {
+    let user_name = await AsyncStorage.getItem('userName');
+    setname(user_name)
+  }
 
   return (
     <View style={[styles.container, { flex: 1, position: 'relative' }]}>
@@ -35,7 +43,7 @@ const Home = ({ navigation, route }) => {
             fontFamily: 'CabinetGrotesk-Black',
             color: '#000',
             paddingBottom: 10
-          }}>{params.userName} &nbsp;,
+          }}>{name} &nbsp;,
         </Text>
         <Text
           style={{
@@ -55,6 +63,7 @@ const Home = ({ navigation, route }) => {
           style={{ display: 'flex', alignSelf: 'center' }}
           name="bruce"
           type="primary">
+
           <View style={styles.bannerContainer}>
             <Image
               source={staticImage}
@@ -71,10 +80,12 @@ const Home = ({ navigation, route }) => {
           backgroundColor="#ff8400"
           style={{ display: 'flex', alignSelf: 'center' }}
           name="bruce"
-          onPress={() =>
+          onPress={() => {
+            playSound();
             setTimeout(function () {
               navigation.replace('Quiz');
             }, 500)
+          }
           }
           type="anchor">
           <Text

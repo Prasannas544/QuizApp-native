@@ -12,7 +12,8 @@ import React, { useEffect, useState } from 'react';
 import { ThemedButton } from 'react-native-really-awesome-button';
 import { useWindowDimensions } from 'react-native';
 import Loader from '../components/loader';
-import Lottie from 'lottie-react-native';
+
+import { playSound } from '../components/utils';
 import TopBar from '../components/TopBar';
 
 const Quiz = ({ navigation }) => {
@@ -359,6 +360,7 @@ const Quiz = ({ navigation }) => {
                     backgroundDarker={bgfn(i).bd}
                     disabled={isButtonDisabled}
                     onPress={() => {
+                      playSound();
                       handleSelectedOption(opt);
                     }}
                     key={i}
@@ -707,6 +709,7 @@ const Quiz = ({ navigation }) => {
                 backgroundColor={bgfn(0).bg}
                 name="bruce"
                 onPress={() => {
+                  playSound();
                   setShowStats(false);
                   navigation.replace('Home');
                 }}
