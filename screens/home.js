@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ThemedButton } from 'react-native-really-awesome-button';
-import { playSound } from '../components/utils';
+import { playClick } from '../components/utils';
 import { NotificationListner, requestUserPermission } from '../src/utils/pushnotification_helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -81,7 +81,7 @@ const Home = ({ navigation, route }) => {
           style={{ display: 'flex', alignSelf: 'center' }}
           name="bruce"
           onPress={() => {
-            playSound();
+            playClick();
             setTimeout(function () {
               navigation.replace('Quiz');
             }, 500)

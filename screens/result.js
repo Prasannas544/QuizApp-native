@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { playSound } from '../components/utils';
+import { playClick } from '../components/utils';
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { ThemedButton } from 'react-native-really-awesome-button';
@@ -159,7 +159,7 @@ const Result = ({ navigation, route }) => {
           backgroundDarker="#102940"
           name="bruce"
           type="anchor"
-          onPress={() => { playSound(); navigation.replace('Home') }}>
+          onPress={() => { playClick(); navigation.replace('Home') }}>
           <Text
             style={[
               styles.buttonText,

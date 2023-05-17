@@ -17,7 +17,7 @@ import { useWindowDimensions } from 'react-native';
 import Loader from '../components/loader';
 import axios from 'axios';
 
-import { playSound } from '../components/utils';
+import { playClick, playWrongAns, playCorrectAns, playResult, playBG, pauseBG } from '../components/utils';
 import TopBar from '../components/TopBar';
 
 const Quiz = ({ navigation }) => {
@@ -56,6 +56,7 @@ const Quiz = ({ navigation }) => {
   };
   var interval
   useEffect(() => {
+    playBG()
     interval = setInterval(() => {
       setTimer(lastTimerCount => {
         lastTimerCount <= 1 && clearInterval(interval);
@@ -64,11 +65,12 @@ const Quiz = ({ navigation }) => {
     }, 1000); //each count lasts for a second
     //cleanup the interval on complete
     if (timerCount <= 0) {
+      pauseBG()
       clearInterval(interval);
       if (route.name === 'Quiz')
         navigation.navigate('Result', { score: score });
     }
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); pauseBG() };
   });
 
   const addTimePU = () => {
@@ -244,7 +246,7 @@ const Quiz = ({ navigation }) => {
     }
   };
   useEffect(() => {
-    // getLeaderboard();
+    getLeaderboard();
     getQuiz();
   }, []);
 
@@ -265,18 +267,23 @@ const Quiz = ({ navigation }) => {
     setTimeout(() => { setisButtonDisabled(false); setIsCorrect(false); }, 500);
 
     if (_option === questions[ques].correct_answer) {
+      playCorrectAns()
       setScore(score + 10);
       setIsCorrect(true);
+    } else {
+      playWrongAns()
     }
     if (ques !== 9)
       setTimeout(function () {
         handleNextPress();
       }, 500);
 
-    if (ques == 9)
+    if (ques == 9) {
+      playResult()
       setTimeout(function () {
         navigation.navigate('Result', { score: score });
       }, 500);
+    }
   };
 
   const bgfn = idx => {
@@ -400,7 +407,7 @@ const Quiz = ({ navigation }) => {
                     backgroundDarker={bgfn(i).bd}
                     disabled={isButtonDisabled}
                     onPress={() => {
-                      playSound();
+                      // playClick();
                       handleSelectedOption(opt);
                     }}
                     key={i}
@@ -814,8 +821,9 @@ const Quiz = ({ navigation }) => {
                 backgroundColor={bgfn(0).bg}
                 name="bruce"
                 onPress={() => {
-                  playSound();
+                  playClick();
                   setShowStats(false);
+                  pauseBG()
                   clearInterval(interval);
                   navigation.replace('Home');
                 }}

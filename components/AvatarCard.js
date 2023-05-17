@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useWindowDimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemedButton } from 'react-native-really-awesome-button';
-import { playSound } from './utils'
+import { playClick } from './utils'
 import { ProgressBar } from '@react-native-community/progress-bar-android'
 import axios from 'axios';
 
@@ -175,7 +175,7 @@ const AvatarCard = ({ navigation }) => {
 
                         onPress={() => {
                             setisButtonDisabled(true)
-                            playSound()
+                            playClick()
                             setTimeout(function () {
                                 setAvatar((avatar + (Avatardata.length - 1)) % Avatardata.length);
                                 setisButtonDisabled(false)
@@ -199,7 +199,7 @@ const AvatarCard = ({ navigation }) => {
                         disabled={isdisabled}
                         onPress={() => {
                             setisButtonDisabled(true)
-                            playSound()
+                            playClick()
                             setTimeout(function () {
                                 handleSubmit()
                                 setisButtonDisabled(false)
@@ -224,7 +224,7 @@ const AvatarCard = ({ navigation }) => {
                         disabled={isdisabled}
                         onPress={() => {
                             setisButtonDisabled(true)
-                            playSound()
+                            playClick()
                             setTimeout(function () {
                                 setAvatar((avatar + 1) % Avatardata.length);
                                 setisButtonDisabled(false)

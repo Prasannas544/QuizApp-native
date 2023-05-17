@@ -2,7 +2,7 @@ import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { useWindowDimensions } from 'react-native';
 import { ThemedButton } from 'react-native-really-awesome-button';
-import { playSound } from './utils';
+import { playClick } from './utils';
 
 
 
@@ -37,7 +37,7 @@ const TopBar = ({ setShowStats, bgfn}) => {
                 name="bruce"
                 onPress={() => {
                     setShowStats(true);
-                    playSound()
+                    playClick()
                 }}
                 type="anchor">
                 <Image
