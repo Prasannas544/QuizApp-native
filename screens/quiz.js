@@ -17,7 +17,7 @@ import { useWindowDimensions } from 'react-native';
 import Loader from '../components/loader';
 import axios from 'axios';
 
-import { playClick, playWrongAns, playCorrectAns, playResult, playBG, pauseBG } from '../components/utils';
+import { playClick, playWrongAns, playCorrectAns, playResult, playBG, pauseBG, playPowerup } from '../components/utils';
 import TopBar from '../components/TopBar';
 
 const Quiz = ({ navigation }) => {
@@ -607,7 +607,7 @@ const Quiz = ({ navigation }) => {
                     raiseLevel={3}
                     backgroundColor={bgfn(3).bg}
                     name="bruce"
-                    onPress={() => { addTimePU() }}
+                    onPress={() => { addTimePU() ; playPowerup() }}
                     type="anchor">
                     <View
                       style={{

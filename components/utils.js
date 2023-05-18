@@ -25,6 +25,16 @@ const resultSnd = new Sound('result.wav', Sound.MAIN_BUNDLE, (error) => {
         console.log('Failed to load the sound result.wav', error);
     }
 });
+const power_up = new Sound('power_up.wav', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+        console.log('Failed to load the sound result.wav', error);
+    }
+});
+const avatar_next_button = new Sound('avatar_next_button.mp3', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+        console.log('Failed to load the sound avatar_next_button.mp3', error);
+    }
+});
 export function playClick() {
     clickSnd.play((success) => {
         if (success) {
@@ -34,12 +44,30 @@ export function playClick() {
         }
     });
 };
+export function avatarNextClick() {
+    avatar_next_button.play((success) => {
+        if (success) {
+            console.log('avatar_next_button.mp3 played successfully');
+        } else {
+            console.log('avatar_next_button.mp3 failed to play');
+        }
+    });
+};
 export function playBG() {
     bgSnd.play((success) => {
         if (success) {
             console.log('bgSnd.mp3 played successfully');
         } else {
             console.log('bgSnd.mp3 failed to play');
+        }
+    });
+};
+export function playPowerup() {
+    power_up.play((success) => {
+        if (success) {
+            console.log('power_up.mp3 played successfully');
+        } else {
+            console.log('power_up.mp3 failed to play');
         }
     });
 };
