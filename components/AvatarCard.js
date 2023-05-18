@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useWindowDimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemedButton } from 'react-native-really-awesome-button';
-import { playClick, avatarNextClick } from './utils'
+import { avatarSubmitClick, avatarNextClick } from './utils'
 import { ProgressBar } from '@react-native-community/progress-bar-android'
 import axios from 'axios';
 
@@ -121,6 +121,7 @@ const AvatarCard = ({ navigation }) => {
                             }}
                             onChangeText={(e) => setName(e)}
                             placeholder="Your Name Here..."
+                            placeholderTextColor='gray'
                         />
 
                     </View>
@@ -168,7 +169,7 @@ const AvatarCard = ({ navigation }) => {
                         borderColor='#000'
                         borderWidth={4}
                         raiseLevel={5}
-                        backgroundColor='#fff'
+                        backgroundColor='#FCF55F'
                         style={styles.optButton}
                         name="bruce"
                         disabled={isdisabled}
@@ -192,14 +193,14 @@ const AvatarCard = ({ navigation }) => {
                         borderColor='#000'
                         borderWidth={4}
                         raiseLevel={5}
-                        backgroundColor='lightgreen'
+                        backgroundColor='#00FF00'
                         style={styles.optButton}
                         name="bruce"
                         backgroundDarker='#000'
                         disabled={isdisabled}
                         onPress={() => {
                             setisButtonDisabled(true)
-                            playClick()
+                            avatarSubmitClick()
                             setTimeout(function () {
                                 handleSubmit()
                                 setisButtonDisabled(false)
@@ -218,7 +219,7 @@ const AvatarCard = ({ navigation }) => {
                         borderColor='#000'
                         borderWidth={4}
                         raiseLevel={5}
-                        backgroundColor='#fff'
+                        backgroundColor='#FCF55F'
                         style={styles.optButton}
                         name="bruce"
                         disabled={isdisabled}

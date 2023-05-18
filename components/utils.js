@@ -15,11 +15,14 @@ const corrAnsSnd = new Sound('correct_ans.wav', Sound.MAIN_BUNDLE, (error) => {
         console.log('Failed to load the sound correct_ans.wav', error);
     }
 });
+corrAnsSnd.setVolume(0.1);
+
 const wrngAnsSnd = new Sound('wrong_ans.wav', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
         console.log('Failed to load the sound wrong_ans.wav', error);
     }
 });
+
 const resultSnd = new Sound('result.wav', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
         console.log('Failed to load the sound result.wav', error);
@@ -33,6 +36,11 @@ const power_up = new Sound('power_up.wav', Sound.MAIN_BUNDLE, (error) => {
 const avatar_next_button = new Sound('avatar_next_button.mp3', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
         console.log('Failed to load the sound avatar_next_button.mp3', error);
+    }
+});
+const avatar_submit = new Sound('avatar_submit.wav', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+        console.log('Failed to load the sound avatar_submit.wav.mp3', error);
     }
 });
 export function playClick() {
@@ -53,7 +61,17 @@ export function avatarNextClick() {
         }
     });
 };
+export function avatarSubmitClick() {
+    avatar_submit.play((success) => {
+        if (success) {
+            console.log('avatar_submit.mp3 played successfully');
+        } else {
+            console.log('avatar_submit.mp3 failed to play');
+        }
+    });
+};
 export function playBG() {
+
     bgSnd.play((success) => {
         if (success) {
             console.log('bgSnd.mp3 played successfully');
@@ -100,7 +118,12 @@ export function playResult() {
 };
 
 export function pauseBG() {
-    bgSnd.stop();
+    bgSnd.stop(()=>{
+       
+            console.log('bgSnd.mp3 stopped');
+        
+    });
+
 };
 
 

@@ -55,8 +55,7 @@ const Quiz = ({ navigation }) => {
     setShowModal(!showModal);
   };
   var interval
-  useEffect(() => {
-    playBG()
+  useEffect(() => {   
     interval = setInterval(() => {
       setTimer(lastTimerCount => {
         lastTimerCount <= 1 && clearInterval(interval);
@@ -68,9 +67,9 @@ const Quiz = ({ navigation }) => {
       pauseBG()
       clearInterval(interval);
       if (route.name === 'Quiz')
-        navigation.navigate('Result', { score: score });
+        navigation.replace('Result', { score: score });
     }
-    return () => { clearInterval(interval); pauseBG() };
+    return () => {  clearInterval(interval); };
   });
 
   const addTimePU = () => {
@@ -246,6 +245,7 @@ const Quiz = ({ navigation }) => {
     }
   };
   useEffect(() => {
+    playBG()   
     getLeaderboard();
     getQuiz();
   }, []);
@@ -264,7 +264,7 @@ const Quiz = ({ navigation }) => {
 
   const handleSelectedOption = _option => {
     setisButtonDisabled(true)
-    setTimeout(() => { setisButtonDisabled(false); setIsCorrect(false); }, 500);
+    setTimeout(() => { setisButtonDisabled(false); setIsCorrect(false); }, 700);
 
     if (_option === questions[ques].correct_answer) {
       playCorrectAns()
@@ -276,13 +276,14 @@ const Quiz = ({ navigation }) => {
     if (ques !== 9)
       setTimeout(function () {
         handleNextPress();
-      }, 500);
+      }, 700);
 
     if (ques == 9) {
       playResult()
+      pauseBG()
       setTimeout(function () {
-        navigation.navigate('Result', { score: score });
-      }, 500);
+        navigation.replace('Result', { score: score });
+      }, 700);
     }
   };
 
@@ -607,7 +608,7 @@ const Quiz = ({ navigation }) => {
                     raiseLevel={3}
                     backgroundColor={bgfn(3).bg}
                     name="bruce"
-                    onPress={() => { addTimePU() ; playPowerup() }}
+                    onPress={() => { addTimePU(); playPowerup() }}
                     type="anchor">
                     <View
                       style={{

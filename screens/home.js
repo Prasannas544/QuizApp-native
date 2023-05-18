@@ -4,6 +4,7 @@ import { ThemedButton } from 'react-native-really-awesome-button';
 import { playClick } from '../components/utils';
 import { NotificationListner, requestUserPermission } from '../src/utils/pushnotification_helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import OnBoard from './OnBoard';
 
 
 const staticImage = require('../components/App.png');
@@ -11,6 +12,7 @@ const staticImage = require('../components/App.png');
 const Home = ({ navigation, route }) => {
 
   const [name, setname] = useState('')
+  const [pressCount, setPressCount] = useState(0)
 
   useEffect(() => {
     getUsername()
@@ -22,6 +24,15 @@ const Home = ({ navigation, route }) => {
     setname(user_name)
   }
 
+
+  const handleEasterClick = async () => {
+    console.log('clickeddd')
+    if (pressCount == 2) {
+      setPressCount(0);
+      await AsyncStorage.removeItem('userName');
+      navigation.replace('onBoard', { easter: true })
+    }
+  }
   return (
     <View style={[styles.container, { flex: 1, position: 'relative' }]}>
       {/* <Title /> */}
@@ -62,7 +73,11 @@ const Home = ({ navigation, route }) => {
           raiseLevel={3}
           style={{ display: 'flex', alignSelf: 'center' }}
           name="bruce"
-          type="primary">
+          type="primary"
+          onPress={() => {
+            setPressCount(pressCount + 1); handleEasterClick()
+          }}>
+
 
           <View style={styles.bannerContainer}>
             <Image
