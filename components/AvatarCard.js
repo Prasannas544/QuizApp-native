@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useWindowDimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemedButton } from 'react-native-really-awesome-button';
-import { avatarSubmitClick, avatarNextClick, encodeImage } from './utils'
+import { avatarSubmitClick, avatarNextClick, encodeImage, playAvtSelection, pauseAvtSelection } from './utils'
 import { ProgressBar } from '@react-native-community/progress-bar-android'
 import axios from 'axios';
 
@@ -52,12 +52,14 @@ const AvatarCard = ({ navigation }) => {
     };
 
     useEffect(() => {
+        playAvtSelection()
         route()
     }, [])
 
     const route = async () => {
         let user_name = await AsyncStorage.getItem('userName');
         if (user_name !== null && user_name !== undefined) {
+            pauseAvtSelection()
             navigation.replace('Home', { userName: user_name });
         } else {
             getAvatarData();
@@ -71,7 +73,9 @@ const AvatarCard = ({ navigation }) => {
         if (name) {
             await AsyncStorage.setItem('userName', name);
             await AsyncStorage.setItem('avatarName', Avatardata[avatar].name);
+
             let user_name = await AsyncStorage.getItem('userName');
+            pauseAvtSelection()
             navigation.replace('Home', { userName: user_name });
         } else {
             alert('Plese Enter Your Name');
@@ -81,7 +85,7 @@ const AvatarCard = ({ navigation }) => {
     }
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ height: windowHeight*0.5, width: windowWidth*0.8, padding: 20, alignSelf: 'center', marginRight: 5 }}>
+            <View style={{ height: windowHeight * 0.5, width: windowWidth * 0.8, padding: 20, alignSelf: 'center', marginRight: 5 }}>
                 <View style={{
                     backgroundColor: 'red',
                     borderWidth: 5,

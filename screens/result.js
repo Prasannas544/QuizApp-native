@@ -9,22 +9,25 @@ import { playClick } from '../components/utils';
 import React, { useEffect, useState } from 'react';
 import { ThemedButton } from 'react-native-really-awesome-button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { encodeImage } from '../components/utils';
+import { encodeImage, playResConvo, pauseResConvo } from '../components/utils';
 const staticImage = require('../components/resul-bg.png');
 
 
 
-const Result = ({ navigation }) => {
-  // const params = route.params;
-  params = { score: 85 };
+const Result = ({ navigation, route }) => {
+  const params = route.params;
+  // params = { score: 85 };
   const [clickCnt, setclickCnt] = useState(0)
-  const [avatarImage, setAvatarImage] = useState()
+  const [avatarImage, setAvatarImage] = useState(require('../components/pg1.png'))
+  const [isButtonDisabled, setisButtonDisabled] = useState(false)
   useEffect(() => {
     saveResult()
+    playResConvo()
   }, [])
 
-  const getImage = () => {
-    let avatarname = AsyncStorage.getItem('avatarName')
+  const getImage = async () => {
+    let avatarname = await AsyncStorage.getItem('avatarName')
+    console.log("avatarname", avatarname)
     setAvatarImage(encodeImage(avatarname))
   }
   const saveResult = async () => {
@@ -57,8 +60,10 @@ const Result = ({ navigation }) => {
 
   const handleClick = () => {
     getImage()
-    if (clickCnt == 2)
+    if (clickCnt == 2) {
+      pauseResConvo()
       navigation.replace('Home')
+    }
   }
   const resultPrompt = () => {
     let score = parseInt(params.score);
@@ -170,8 +175,14 @@ const Result = ({ navigation }) => {
           backgroundDarker="#102940"
           name="bruce"
           type="anchor"
+          disabled={isButtonDisabled}
           onPress={() => {
-            playClick(); handleClick(); setclickCnt(clickCnt + 1)
+            playClick(); handleClick();
+            setclickCnt(clickCnt + 1)
+            setisButtonDisabled(true)
+            setTimeout(function () {
+              setisButtonDisabled(false)
+            }, 1000);
           }}>
           <Text
             style={[
@@ -182,7 +193,7 @@ const Result = ({ navigation }) => {
                 color: '#fff',
               },
             ]}>
-            {clickCnt < 2 ? 'Next ⏭️' : 'Home 🏠'}
+            {clickCnt < 2 ? 'Next' : 'Home'}
           </Text>
         </ThemedButton>
       </View>

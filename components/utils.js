@@ -15,6 +15,16 @@ const bgSnd = new Sound('bg_calmer.mp3', Sound.MAIN_BUNDLE, (error) => {
         }, 100);
     }
 });
+const result_convo = new Sound('result_convo.mp3', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+        console.log('Failed to load the sound result_convo.mp3', error);
+    } else {
+        setTimeout(() => {
+            result_convo.setNumberOfLoops(-1);
+            result_convo.setVolume(1.0); // Set the desired volume here
+        }, 100);
+    }
+});
 
 
 const corrAnsSnd = new Sound('correct_ans.wav', Sound.MAIN_BUNDLE, (error) => {
@@ -57,6 +67,16 @@ const avatar_submit = new Sound('avatar_submit.wav', Sound.MAIN_BUNDLE, (error) 
         console.log('Failed to load the sound avatar_submit.wav.mp3', error);
     }
 });
+const naruto_intro = new Sound('naruto_intro.mp3', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+        console.log('Failed to load the sound avatar_submit.wav.mp3', error);
+    }else{
+        setTimeout(() => {
+            naruto_intro.setNumberOfLoops(-1);
+            // naruto_intro.setVolume(1.0);
+        }, 100);
+    }
+});
 export function playClick() {
     clickSnd.play((success) => {
         if (success) {
@@ -91,6 +111,16 @@ export function playBG() {
             console.log('bgSnd.mp3 played successfully');
         } else {
             console.log('bgSnd.mp3 failed to play');
+        }
+    });
+};
+export function playResConvo() {
+
+    result_convo.play((success) => {
+        if (success) {
+            console.log('result_convo.mp3 played successfully');
+        } else {
+            console.log('result_convo.mp3 failed to play');
         }
     });
 };
@@ -130,27 +160,52 @@ export function playResult() {
         }
     });
 };
+export function playAvtSelection() {
+    naruto_intro.play((success) => {
+        if (success) {
+            console.log('naruto_intro.mp3 played successfully');
+        } else {
+            console.log('naruto_intro.mp3 failed to play');
+        }
+    });
+};
 
 export function pauseBG() {
     bgSnd.stop(() => {
-
         console.log('bgSnd.mp3 stopped');
-
     });
-
+};
+export function pauseResConvo() {
+    result_convo.stop(() => {
+        console.log('result_convo.mp3 stopped');
+    });
+};
+export function pauseAvtSelection() {
+    naruto_intro.stop(() => {
+        console.log('naruto_intro.mp3 stopped');
+    });
 };
 
 
 export const encodeImage = (name) => {
-    switch (name) {
-        case 'DeadPool': return require('./deadpool.png');
-        case 'Mr. White': return require('./white.jpg');
-        case 'Goku': return require("./goku.png");
-        case 'Kakashi': return require("./kakashi.png");
-        case 'Itachi': return require('./itachi.png');
-        case 'Mario': return require('./mario.png');
-        case 'Cpt. Price': return require('./price.png');
-        case 'Mr. Chief': return require('./chief.png');
-        default: return require('./chief.png');
+
+    if (name == 'DeadPool') {
+        return require('./deadpool.png');
+    } else if (name == 'Mr. White') {
+        return require('./white.jpg');
+    } else if (name == 'Goku') {
+        return require('./goku.png');
+    } else if (name == 'Kakashi') {
+        return require('./kakashi.png');
+    } else if (name == 'Itachi') {
+        return require('./itachi.png');
+    } else if (name == 'Mario') {
+        return require('./mario.png');
+    } else if (name == 'Cpt. Price') {
+        return require('./price.png');
+    } else if (name == 'Mr. Chief') {
+        return require('./chief.png');
+    } else {
+        return require('./white.jpg');
     }
 }
