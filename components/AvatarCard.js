@@ -3,16 +3,16 @@ import React, { useState, useEffect } from 'react'
 import { useWindowDimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemedButton } from 'react-native-really-awesome-button';
-import { avatarSubmitClick, avatarNextClick } from './utils'
+import { avatarSubmitClick, avatarNextClick, encodeImage } from './utils'
 import { ProgressBar } from '@react-native-community/progress-bar-android'
 import axios from 'axios';
 
 
 const AvatarCard = ({ navigation }) => {
     const [Avatardata, setAvatardata] = useState([{
-        img: "https://drive.google.com/uc?export=view&id=11-1sPBd_cbab9IMbrHd23d-hBm9QedCZ",
-        info: "verudasfhasf sffjlaskhfkasf asfhjashfas hfas asf",
-        name: "Betty",
+        img: require("./deadpool.png"),
+        info: "I made this one to handle edge case ;)",
+        name: "Praz",
         stats: {
             IQ: '65',
             power: '55',
@@ -39,6 +39,9 @@ const AvatarCard = ({ navigation }) => {
             if (response.status === 200) {
                 const data = response.data;
                 console.log('Avatar data received:', data.avatar_data);
+                data.avatar_data.map((item) => {
+                    item.img = encodeImage(item.name)
+                })
                 setAvatardata(data.avatar_data)
             } else {
                 console.log('Error: Unexpected response status:', response.status);
@@ -50,7 +53,6 @@ const AvatarCard = ({ navigation }) => {
 
     useEffect(() => {
         route()
-
     }, [])
 
     const route = async () => {
@@ -64,9 +66,11 @@ const AvatarCard = ({ navigation }) => {
     }
 
 
+
     const handleSubmit = async () => {
         if (name) {
             await AsyncStorage.setItem('userName', name);
+            await AsyncStorage.setItem('avatarName', Avatardata[avatar].name);
             let user_name = await AsyncStorage.getItem('userName');
             navigation.replace('Home', { userName: user_name });
         } else {
@@ -77,7 +81,7 @@ const AvatarCard = ({ navigation }) => {
     }
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ height: 350, width: 300, padding: 20, alignSelf: 'center', marginRight: 5 }}>
+            <View style={{ height: windowHeight*0.5, width: windowWidth*0.8, padding: 20, alignSelf: 'center', marginRight: 5 }}>
                 <View style={{
                     backgroundColor: 'red',
                     borderWidth: 5,
@@ -101,9 +105,7 @@ const AvatarCard = ({ navigation }) => {
                             <Text style={[styles.topText, { fontSize: 16 }]}>{Avatardata[avatar].name}</Text>
                             <Text style={[styles.topText,]} >{Avatardata[avatar].info}</Text>
                         </View>
-                        <Image source={{
-                            uri: Avatardata[avatar].img,
-                        }} style={styles.topImage} resizeMode='cover' />
+                        <Image source={Avatardata[avatar].img} style={styles.topImage} resizeMode='cover' />
                     </View>
                     <View style={styles.middle}>
 
@@ -163,7 +165,7 @@ const AvatarCard = ({ navigation }) => {
             </View>
 
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-                <View style={{ width: '20%' }}>
+                <View style={{ width: '22%' }}>
                     <ThemedButton
                         width={'95%'}
                         borderColor='#000'
@@ -180,7 +182,7 @@ const AvatarCard = ({ navigation }) => {
                             setTimeout(function () {
                                 setAvatar((avatar + (Avatardata.length - 1)) % Avatardata.length);
                                 setisButtonDisabled(false)
-                            }, 500);
+                            }, 1000);
                         }}
                         backgroundDarker='#000'
                         type="anchor">
@@ -204,7 +206,7 @@ const AvatarCard = ({ navigation }) => {
                             setTimeout(function () {
                                 handleSubmit()
                                 setisButtonDisabled(false)
-                            }, 500);
+                            }, 1000);
                         }}
 
                         type="anchor">
@@ -213,7 +215,7 @@ const AvatarCard = ({ navigation }) => {
                         </Text>
                     </ThemedButton>
                 </View>
-                <View style={{ width: '20%' }}>
+                <View style={{ width: '22%' }}>
                     <ThemedButton
                         width={'95%'}
                         borderColor='#000'
@@ -229,7 +231,7 @@ const AvatarCard = ({ navigation }) => {
                             setTimeout(function () {
                                 setAvatar((avatar + 1) % Avatardata.length);
                                 setisButtonDisabled(false)
-                            }, 500);
+                            }, 1000);
                         }}
                         backgroundDarker='#000'
                         type="anchor">

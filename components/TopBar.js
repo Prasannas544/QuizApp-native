@@ -6,7 +6,7 @@ import { playClick } from './utils';
 
 
 
-const TopBar = ({ setShowStats, bgfn}) => {
+const TopBar = ({ setShowStats, bgfn, isButtonDisabled, isCorrect }) => {
 
     const windowWidth = useWindowDimensions().width;
     const windowHeight = useWindowDimensions().height;
@@ -25,10 +25,39 @@ const TopBar = ({ setShowStats, bgfn}) => {
                 paddingHorizontal: windowWidth * 0.03,
                 paddingVertical: windowHeight * 0.02,
             }}>
-            <Image
+            {/* <Image
                 source={require('./menu-icon.png')}
                 style={{ width: 42, height: 42 }}
-            />
+            />       */}
+            {/* Cue */}
+            <View style={{
+                width: windowWidth * 0.18, borderRadius: 8,
+                height: 40,
+                backgroundColor: '#555555', flexDirection: 'row',
+                borderWidth: 3,
+                borderBottomWidth: 7,
+                justifyContent: 'space-evenly', alignSelf: 'center',
+                alignItems: 'center',
+                marginTop: 5
+            }}>
+
+                <View style={{
+                    width: 20,
+                    height: 20,
+                    borderWidth: 2,
+                    backgroundColor: isButtonDisabled && isCorrect ? 'green' : '#777777',
+                    borderRadius: 20
+                }}></View>
+
+                <View style={{
+                    width: 20,
+                    height: 20,
+                    borderWidth: 2,
+                    backgroundColor: isButtonDisabled && !isCorrect ? 'red' : '#777777',
+                    borderRadius: 20
+                }}></View>
+            </View>
+
             <ThemedButton
                 width={112}
                 height={42}

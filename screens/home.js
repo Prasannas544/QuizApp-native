@@ -4,7 +4,6 @@ import { ThemedButton } from 'react-native-really-awesome-button';
 import { playClick } from '../components/utils';
 import { NotificationListner, requestUserPermission } from '../src/utils/pushnotification_helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import OnBoard from './OnBoard';
 
 
 const staticImage = require('../components/App.png');
@@ -26,7 +25,6 @@ const Home = ({ navigation, route }) => {
 
 
   const handleEasterClick = async () => {
-    console.log('clickeddd')
     if (pressCount == 2) {
       setPressCount(0);
       await AsyncStorage.removeItem('userName');
@@ -49,7 +47,7 @@ const Home = ({ navigation, route }) => {
         style={{ alignSelf: 'center', paddingTop: 20, paddingHorizontal: '5%' }}>
         <Text
           style={{
-            fontSize: 20,
+            fontSize: 22,
             textAlign: 'center',
             fontFamily: 'CabinetGrotesk-Black',
             color: '#000',

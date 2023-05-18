@@ -3,26 +3,30 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { playClick } from '../components/utils';
-import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemedButton } from 'react-native-really-awesome-button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { encodeImage } from '../components/utils';
 const staticImage = require('../components/resul-bg.png');
 
 
 
-const Result = ({ navigation, route }) => {
-  const params = route.params;
-  // params = { score: 85 };
+const Result = ({ navigation }) => {
+  // const params = route.params;
+  params = { score: 85 };
+  const [clickCnt, setclickCnt] = useState(0)
+  const [avatarImage, setAvatarImage] = useState()
   useEffect(() => {
     saveResult()
   }, [])
 
+  const getImage = () => {
+    let avatarname = AsyncStorage.getItem('avatarName')
+    setAvatarImage(encodeImage(avatarname))
+  }
   const saveResult = async () => {
     let userName = await AsyncStorage.getItem('userName')
     let payload = {
@@ -51,31 +55,38 @@ const Result = ({ navigation, route }) => {
       .catch(error => console.error(error));
   };
 
-
+  const handleClick = () => {
+    getImage()
+    if (clickCnt == 2)
+      navigation.replace('Home')
+  }
   const resultPrompt = () => {
     let score = parseInt(params.score);
+    if (score == 0) {
+      return { txt: ['IDK what to say', 'IDK either', "Bounce or I'll ban you"], img: require('../components/pg3.png') };
+    }
     if (score <= 40) {
       return {
-        txt: 'Try harder or die !!',
+        txt: ['Try harder or die !!', 'Only if it kills me', 'Thats what death means'],
         img: require('../components/pg2.png'),
       };
     } else if (score <= 60) {
       return {
-        txt: 'Could do better, You know !',
+        txt: ['Could do better, You know !', 'Ofcourse I could', 'Then, please do better'],
         img: require('../components/pg3.png'),
       };
     } else if (score <= 80) {
       return {
-        txt: 'Very Good, nearly brilliant !!',
+        txt: ['Very Good, nearly brilliant !!', 'I can push harder tbh', 'Ofcourse you can !'],
         img: require('../components/pg4.png'),
       };
     } else if (score <= 100) {
       return {
-        txt: 'Excellent !!!, Never seen before !',
+        txt: ['Excellent !!!, Never seen before !', "I've got what it takes", 'You are on board now!!'],
         img: require('../components/pg1.png'),
       };
     } else {
-      return { txt: 'IDK what to say', img: require('../components/pg3.png') };
+      return { txt: ['IDK what to say', 'IDK either', "Bounce or I'll ban you"], img: require('../components/pg3.png') };
     }
   };
   const res = resultPrompt();
@@ -133,12 +144,12 @@ const Result = ({ navigation, route }) => {
               color: '#102940',
               textAlign: 'center'
             }}>
-            {res.txt}
+            {res.txt[clickCnt]}
           </Text>
         </ImageBackground>
         <View style={{ width: '50%', height: '50%', position: 'relative' }}>
           <Image
-            source={res.img}
+            source={clickCnt == 1 ? avatarImage : res.img}
             style={{
               position: 'absolute',
               bottom: -180,
@@ -159,7 +170,9 @@ const Result = ({ navigation, route }) => {
           backgroundDarker="#102940"
           name="bruce"
           type="anchor"
-          onPress={() => { playClick(); navigation.replace('Home') }}>
+          onPress={() => {
+            playClick(); handleClick(); setclickCnt(clickCnt + 1)
+          }}>
           <Text
             style={[
               styles.buttonText,
@@ -169,7 +182,7 @@ const Result = ({ navigation, route }) => {
                 color: '#fff',
               },
             ]}>
-            Home
+            {clickCnt < 2 ? 'Next ⏭️' : 'Home 🏠'}
           </Text>
         </ThemedButton>
       </View>

@@ -8,15 +8,25 @@ const clickSnd = new Sound('click.mp3', Sound.MAIN_BUNDLE, (error) => {
 const bgSnd = new Sound('bg_calmer.mp3', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
         console.log('Failed to load the sound bg-calmer.mp3', error);
+    } else {
+        setTimeout(() => {
+            bgSnd.setNumberOfLoops(-1);
+            bgSnd.setVolume(1.0); // Set the desired volume here
+        }, 100);
     }
 });
+
+
 const corrAnsSnd = new Sound('correct_ans.wav', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
         console.log('Failed to load the sound correct_ans.wav', error);
+    } else {
+        setTimeout(() => {
+            corrAnsSnd.setVolume(0.2); // Set the desired volume here
+        }, 100);
     }
 });
-corrAnsSnd.setVolume(0.1);
-
+corrAnsSnd.setVolume(0.1)
 const wrngAnsSnd = new Sound('wrong_ans.wav', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
         console.log('Failed to load the sound wrong_ans.wav', error);
@@ -26,6 +36,10 @@ const wrngAnsSnd = new Sound('wrong_ans.wav', Sound.MAIN_BUNDLE, (error) => {
 const resultSnd = new Sound('result.wav', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
         console.log('Failed to load the sound result.wav', error);
+    } else {
+        setTimeout(() => {
+            resultSnd.setVolume(0.9); // Set the desired volume here
+        }, 100);
     }
 });
 const power_up = new Sound('power_up.wav', Sound.MAIN_BUNDLE, (error) => {
@@ -118,12 +132,25 @@ export function playResult() {
 };
 
 export function pauseBG() {
-    bgSnd.stop(()=>{
-       
-            console.log('bgSnd.mp3 stopped');
-        
+    bgSnd.stop(() => {
+
+        console.log('bgSnd.mp3 stopped');
+
     });
 
 };
 
 
+export const encodeImage = (name) => {
+    switch (name) {
+        case 'DeadPool': return require('./deadpool.png');
+        case 'Mr. White': return require('./white.jpg');
+        case 'Goku': return require("./goku.png");
+        case 'Kakashi': return require("./kakashi.png");
+        case 'Itachi': return require('./itachi.png');
+        case 'Mario': return require('./mario.png');
+        case 'Cpt. Price': return require('./price.png');
+        case 'Mr. Chief': return require('./chief.png');
+        default: return require('./chief.png');
+    }
+}

@@ -30,7 +30,7 @@ const Quiz = ({ navigation }) => {
   const [options, setOptions] = useState();
   const [score, setScore] = useState(0);
   const [isLoading, setisLoading] = useState(false);
-  const [timerCount, setTimer] = useState(1500);
+  const [timerCount, setTimer] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [isButtonDisabled, setisButtonDisabled] = useState(false);
@@ -55,7 +55,7 @@ const Quiz = ({ navigation }) => {
     setShowModal(!showModal);
   };
   var interval
-  useEffect(() => {   
+  useEffect(() => {
     interval = setInterval(() => {
       setTimer(lastTimerCount => {
         lastTimerCount <= 1 && clearInterval(interval);
@@ -69,7 +69,7 @@ const Quiz = ({ navigation }) => {
       if (route.name === 'Quiz')
         navigation.replace('Result', { score: score });
     }
-    return () => {  clearInterval(interval); };
+    return () => { clearInterval(interval); };
   });
 
   const addTimePU = () => {
@@ -245,7 +245,7 @@ const Quiz = ({ navigation }) => {
     }
   };
   useEffect(() => {
-    playBG()   
+    playBG()
     getLeaderboard();
     getQuiz();
   }, []);
@@ -264,7 +264,7 @@ const Quiz = ({ navigation }) => {
 
   const handleSelectedOption = _option => {
     setisButtonDisabled(true)
-    setTimeout(() => { setisButtonDisabled(false); setIsCorrect(false); }, 700);
+    setTimeout(() => { setisButtonDisabled(false); setIsCorrect(false); }, 1000);
 
     if (_option === questions[ques].correct_answer) {
       playCorrectAns()
@@ -276,14 +276,14 @@ const Quiz = ({ navigation }) => {
     if (ques !== 9)
       setTimeout(function () {
         handleNextPress();
-      }, 700);
+      }, 1000);
 
     if (ques == 9) {
       playResult()
       pauseBG()
       setTimeout(function () {
         navigation.replace('Result', { score: score });
-      }, 700);
+      }, 1000);
     }
   };
 
@@ -315,7 +315,7 @@ const Quiz = ({ navigation }) => {
       ) : (
         questions && (
           <View style={{ height: '100%', backgroundColor: '#fff9e4' }}>
-            <TopBar setShowStats={setShowStats} bgfn={bgfn} />
+            <TopBar setShowStats={setShowStats} bgfn={bgfn} isCorrect={isCorrect} isButtonDisabled={isButtonDisabled} />
 
 
             <View
@@ -377,6 +377,7 @@ const Quiz = ({ navigation }) => {
                 backgroundColor: '#000',
               }}></View>
 
+
             {/* question */}
             <View style={[styles.que, { paddingHorizontal: windowWidth * 0.05 }]}>
               <Text
@@ -426,35 +427,7 @@ const Quiz = ({ navigation }) => {
                 ))}
             </View>
 
-            {/* Cue */}
-            <View style={{
-              width: windowWidth * 0.4, borderRadius: 8,
-              height: 60,
-              backgroundColor: 'orange', flexDirection: 'row',
-              borderWidth: 3,
-              borderRightWidth: 7,
-              borderBottomWidth: 7,
-              justifyContent: 'space-evenly', alignSelf: 'center',
-              alignItems: 'center',
-              marginTop: 40
-            }}>
 
-              <View style={{
-                width: 40,
-                height: 40,
-                borderWidth: 2,
-                backgroundColor: isButtonDisabled && isCorrect ? 'green' : 'gray',
-                borderRadius: 20
-              }}></View>
-
-              <View style={{
-                width: 40,
-                height: 40,
-                borderWidth: 2,
-                backgroundColor: isButtonDisabled && !isCorrect ? 'red' : 'gray',
-                borderRadius: 20
-              }}></View>
-            </View>
             {/* PowerUps */}
             <TouchableWithoutFeedback onPress={() => toggleModal()}>
               <View
@@ -488,7 +461,9 @@ const Quiz = ({ navigation }) => {
             </TouchableWithoutFeedback>
 
             <Modal
-              isVisible={showModal}
+              onSwipeStart={toggleModal}
+              swipeDirection='left'
+              isVisible={showModal} 
               onBackdropPress={toggleModal}
               animationIn="slideInUp"
               animationOut="slideOutDown"
@@ -630,6 +605,7 @@ const Quiz = ({ navigation }) => {
             </Modal>
 
             <Modal
+
               isVisible={showStats}
               onBackdropPress={() => setShowStats(false)}
               animationIn="slideInLeft"
