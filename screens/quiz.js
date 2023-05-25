@@ -19,6 +19,7 @@ import axios from 'axios';
 
 import { playClick, playWrongAns, playCorrectAns, playResult, playBG, pauseBG, playPowerup } from '../components/utils';
 import TopBar from '../components/TopBar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Quiz = ({ navigation }) => {
   const windowWidth = useWindowDimensions().width;
@@ -43,6 +44,12 @@ const Quiz = ({ navigation }) => {
       "time_taken": 120,
       "timestamp": "2023-05-17 18:09:37"
     }])
+  const [cummLboard, setCummLboard] = useState([])
+  const [userRank, setUserRank] = useState(999)
+  const [usercummScore, setUsercummScore] = useState(0)
+  const [toggleLeaderboard, settoggleLeaderboard] = useState(false)
+  const [userName, setUserName] = useState("dummy")
+
 
   const shuffleArray = array => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -63,6 +70,8 @@ const Quiz = ({ navigation }) => {
       });
     }, 1000); //each count lasts for a second
     //cleanup the interval on complete
+
+
     if (timerCount <= 0) {
       pauseBG()
       clearInterval(interval);
@@ -72,6 +81,8 @@ const Quiz = ({ navigation }) => {
     return () => { clearInterval(interval); };
   });
 
+
+
   const addTimePU = () => {
     let newtimer = timerCount + 15;
     setTimer(newtimer)
@@ -79,148 +90,148 @@ const Quiz = ({ navigation }) => {
 
   const getQuiz = async () => {
     setisLoading(true);
-    const url =
-      'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
-    const res = await fetch(url);
-    console.log(res);
-    const data = await res.json();
-    console.log(data);
+    // const url =
+    //   'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
+    // const res = await fetch(url);
+    // console.log(res);
+    // const data = await res.json();
+    // console.log(data);
 
-    // const data = {
-    //   response_code: 0,
-    //   results: [
-    //     {
-    //       category: 'Entertainment%3A%20Video%20Games',
-    //       correct_answer: 'Halo%203%3A%20Recon',
-    //       difficulty: 'medium',
-    //       incorrect_answers: [
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //       ],
-    //       question:
-    //         'When%20Halo%203%3A%20ODST%20was%20unveiled%20in%202008%2C%20it%20had%20a%20different%20title.%20What%20was%20the%20game%20formally%20called%3F',
-    //       type: 'multiple',
-    //     },
-    //     {
-    //       category: 'General%20Knowledge',
-    //       correct_answer: 'Potimarron',
-    //       difficulty: 'hard',
-    //       incorrect_answers: [
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //       ],
-    //       question:
-    //         'Which%20of%20the%20following%20is%20not%20another%20name%20for%20the%20eggplant%3F',
-    //       type: 'multiple',
-    //     },
-    //     {
-    //       category: 'History',
-    //       correct_answer: 'Robbing%20Trains',
-    //       difficulty: 'medium',
-    //       incorrect_answers: [
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //       ],
-    //       question:
-    //         'Joseph%20Stalin%20had%20a%20criminal%20past%20doing%20what%3F',
-    //       type: 'multiple',
-    //     },
-    //     {
-    //       category: 'Entertainment%3A%20Comics',
-    //       correct_answer: 'Prospit',
-    //       difficulty: 'hard',
-    //       incorrect_answers: [
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //       ],
-    //       question:
-    //         'In%20the%20Homestuck%20Series%2C%20what%20is%20the%20alternate%20name%20for%20the%20Kingdom%20of%20Lights%3F',
-    //       type: 'multiple',
-    //     },
-    //     {
-    //       category: 'Entertainment%3A%20Video%20Games',
-    //       correct_answer: 'Cicero',
-    //       difficulty: 'medium',
-    //       incorrect_answers: [
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //       ],
-    //       question:
-    //         'In%20The%20Elder%20Scrolls%20V%3A%20Skyrim%2C%20who%20is%20the%20jester%20in%20the%20dark%20brotherhood%3F',
-    //       type: 'multiple',
-    //     },
-    //     {
-    //       category: 'Entertainment%3A%20Japanese%20Anime%20%26%20Manga',
-    //       correct_answer: '8',
-    //       difficulty: 'easy',
-    //       incorrect_answers: [
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //       ],
-    //       question:
-    //         'How%20many%20%22JoJos%22%20that%20are%20protagonists%20are%20there%20in%20the%20series%20%22Jojo%27s%20Bizarre%20Adventure%22%3F',
-    //       type: 'multiple',
-    //     },
-    //     {
-    //       category: 'Entertainment%3A%20Japanese%20Anime%20%26%20Manga',
-    //       correct_answer: 'Production%20I.G',
-    //       difficulty: 'hard',
-    //       incorrect_answers: [
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //       ],
-    //       question:
-    //         'Which%20animation%20studio%20animated%20%22Psycho%20Pass%22%3F',
-    //       type: 'multiple',
-    //     },
-    //     {
-    //       category: 'History',
-    //       correct_answer: 'Mayans',
-    //       difficulty: 'hard',
-    //       incorrect_answers: [
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //       ],
-    //       question:
-    //         'The%20ancient%20city%20of%20Chich%C3%A9n%20Itz%C3%A1%20was%20built%20by%20which%20civilization%3F',
-    //       type: 'multiple',
-    //     },
-    //     {
-    //       category: 'General%20Knowledge',
-    //       correct_answer: 'Platelets',
-    //       difficulty: 'easy',
-    //       incorrect_answers: [
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //       ],
-    //       question:
-    //         'Which%20of%20the%20following%20blood%20component%20forms%20a%20plug%20at%20the%20site%20of%20injuries%3F',
-    //       type: 'multiple',
-    //     },
-    //     {
-    //       category: 'Entertainment%3A%20Music',
-    //       correct_answer: 'Waves',
-    //       difficulty: 'medium',
-    //       incorrect_answers: [
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //         'Halo%203%3A%20Recon',
-    //       ],
-    //       question:
-    //         'Which%20of%20these%20is%20not%20a%20song%20on%20the%20album%20Graduation%20by%20Kanye%20West%3F',
-    //       type: 'multiple',
-    //     },
-    //   ],
-    // };
+    const data = {
+      response_code: 0,
+      results: [
+        {
+          category: 'Entertainment%3A%20Video%20Games',
+          correct_answer: 'Halo%203%3A%20Recon',
+          difficulty: 'medium',
+          incorrect_answers: [
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+          ],
+          question:
+            'When%20Halo%203%3A%20ODST%20was%20unveiled%20in%202008%2C%20it%20had%20a%20different%20title.%20What%20was%20the%20game%20formally%20called%3F',
+          type: 'multiple',
+        },
+        {
+          category: 'General%20Knowledge',
+          correct_answer: 'Potimarron',
+          difficulty: 'hard',
+          incorrect_answers: [
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+          ],
+          question:
+            'Which%20of%20the%20following%20is%20not%20another%20name%20for%20the%20eggplant%3F',
+          type: 'multiple',
+        },
+        {
+          category: 'History',
+          correct_answer: 'Robbing%20Trains',
+          difficulty: 'medium',
+          incorrect_answers: [
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+          ],
+          question:
+            'Joseph%20Stalin%20had%20a%20criminal%20past%20doing%20what%3F',
+          type: 'multiple',
+        },
+        {
+          category: 'Entertainment%3A%20Comics',
+          correct_answer: 'Prospit',
+          difficulty: 'hard',
+          incorrect_answers: [
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+          ],
+          question:
+            'In%20the%20Homestuck%20Series%2C%20what%20is%20the%20alternate%20name%20for%20the%20Kingdom%20of%20Lights%3F',
+          type: 'multiple',
+        },
+        {
+          category: 'Entertainment%3A%20Video%20Games',
+          correct_answer: 'Cicero',
+          difficulty: 'medium',
+          incorrect_answers: [
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+          ],
+          question:
+            'In%20The%20Elder%20Scrolls%20V%3A%20Skyrim%2C%20who%20is%20the%20jester%20in%20the%20dark%20brotherhood%3F',
+          type: 'multiple',
+        },
+        {
+          category: 'Entertainment%3A%20Japanese%20Anime%20%26%20Manga',
+          correct_answer: '8',
+          difficulty: 'easy',
+          incorrect_answers: [
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+          ],
+          question:
+            'How%20many%20%22JoJos%22%20that%20are%20protagonists%20are%20there%20in%20the%20series%20%22Jojo%27s%20Bizarre%20Adventure%22%3F',
+          type: 'multiple',
+        },
+        {
+          category: 'Entertainment%3A%20Japanese%20Anime%20%26%20Manga',
+          correct_answer: 'Production%20I.G',
+          difficulty: 'hard',
+          incorrect_answers: [
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+          ],
+          question:
+            'Which%20animation%20studio%20animated%20%22Psycho%20Pass%22%3F',
+          type: 'multiple',
+        },
+        {
+          category: 'History',
+          correct_answer: 'Mayans',
+          difficulty: 'hard',
+          incorrect_answers: [
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+          ],
+          question:
+            'The%20ancient%20city%20of%20Chich%C3%A9n%20Itz%C3%A1%20was%20built%20by%20which%20civilization%3F',
+          type: 'multiple',
+        },
+        {
+          category: 'General%20Knowledge',
+          correct_answer: 'Platelets',
+          difficulty: 'easy',
+          incorrect_answers: [
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+          ],
+          question:
+            'Which%20of%20the%20following%20blood%20component%20forms%20a%20plug%20at%20the%20site%20of%20injuries%3F',
+          type: 'multiple',
+        },
+        {
+          category: 'Entertainment%3A%20Music',
+          correct_answer: 'Waves',
+          difficulty: 'medium',
+          incorrect_answers: [
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+            'Halo%203%3A%20Recon',
+          ],
+          question:
+            'Which%20of%20these%20is%20not%20a%20song%20on%20the%20album%20Graduation%20by%20Kanye%20West%3F',
+          type: 'multiple',
+        },
+      ],
+    };
 
     setQuestions(data.results);
     setOptions(generateOptionsAndShuffle(data.results[0]));
@@ -230,24 +241,39 @@ const Quiz = ({ navigation }) => {
     let endpointUrl =
       'https://m42voquwh7.execute-api.ap-south-1.amazonaws.com/get-leaderboard';
 
-    try {
-      const response = await axios.post(endpointUrl);
-      if (response.status === 200) {
-        const data = response.data;
-        console.log('Leaderboard data received:', data.leaderboard);
-        setLeaderboard(data.leaderboard)
+    var userName = await AsyncStorage.getItem('userName')
 
-      } else {
-        console.log('Error:Leaderboard: Unexpected response status:', response.status);
-      }
-    } catch (error) {
-      console.log('Error: Leaderboard', error.message);
+    setUserName(userName)
+    let payload = {
+      user_name: userName,
     }
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    };
+
+    fetch(endpointUrl, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status == 200) {
+          console.log('Leaderboard data received:', data.leaderboard);
+          setLeaderboard(data.leaderboard)
+          setCummLboard(data.leaderboard_tot)
+          setUserRank(data.userRank)
+          setUsercummScore(data.userScores)
+        } else {
+          console.log('Error:Leaderboard: Unexpected response status:', response.status);
+        }
+      })
+      .catch(error => console.error(error));
   };
   useEffect(() => {
     playBG()
     getLeaderboard();
     getQuiz();
+    setTimer(120)
   }, []);
 
   const generateOptionsAndShuffle = quest => {
@@ -462,8 +488,7 @@ const Quiz = ({ navigation }) => {
 
             <Modal
               onSwipeStart={toggleModal}
-              swipeDirection='left'
-              isVisible={showModal} 
+              isVisible={showModal}
               onBackdropPress={toggleModal}
               animationIn="slideInUp"
               animationOut="slideOutDown"
@@ -755,7 +780,7 @@ const Quiz = ({ navigation }) => {
                   }}>
 
                 </View>
-                <View style={{ display: 'flex', padding: windowWidth * 0.05 }}>
+                {timerCount % 10 >= 5 ? <View style={{ display: 'flex', padding: windowWidth * 0.05 }}>
                   <Text
                     style={{
                       fontFamily: 'CabinetGrotesk-Black',
@@ -768,14 +793,14 @@ const Quiz = ({ navigation }) => {
 
 
                   {Leaderboard.map((item, i) => {
-                    return (<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    return (<View style={{ flexDirection: 'row', justifyContent: 'space-between' }} key={i}>
                       <Text style={{
                         fontFamily: 'CabinetGrotesk-Extrabold',
                         fontSize: 20,
                         marginBottom: 8,
                         color: i == 0 ? '#E2B134' : i == 1 ? '#96A2AE' : i == 2 ? '#AE813D' : '#151515'
 
-                      }}>{i + 1}.   {item.user_name}</Text>
+                      }}>{i + 1}. {item.user_name}</Text>
                       <Text style={{
                         fontFamily: 'CabinetGrotesk-Extrabold',
                         fontSize: 20,
@@ -787,7 +812,66 @@ const Quiz = ({ navigation }) => {
                     </View>)
                   })}
 
-                </View>
+                </View> :
+                  <View style={{ display: 'flex', padding: windowWidth * 0.05 }}>
+                    <Text
+                      style={{
+                        fontFamily: 'CabinetGrotesk-Black',
+                        color: '#000',
+                        fontSize: 32,
+                        marginBottom: 16,
+                      }}>
+                      Cummulative pts
+                    </Text>
+
+
+                    {cummLboard.map((item, i) => {
+                      return (<View style={{
+                        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline',
+                        marginVertical: 4,
+                      }} key={i}>
+                        <Text style={{
+                          fontFamily: item._id === userName ? 'CabinetGrotesk-Black' : 'CabinetGrotesk-Extrabold',
+                          fontSize: 20,
+                          // marginBottom: 8,
+                          color: i == 0 ? '#E2B134' : i == 1 ? '#96A2AE' : i == 2 ? '#AE813D' : '#151515'
+
+                        }}>{i + 1}. {item._id}</Text>
+                        <Text style={{
+                          fontFamily: item._id === userName ? 'CabinetGrotesk-Black' : 'CabinetGrotesk-Extrabold',
+                          fontSize: 20,
+                          // marginBottom: 8,
+                          color: i == 0 ? '#E2B134' : i == 1 ? '#96A2AE' : i == 2 ? '#AE813D' : '#151515'
+
+                        }}>{item.totalScore} points</Text>
+
+                      </View>)
+                    })}
+
+                    {userRank > 5 ? <View style={{
+                      flexDirection: 'row', justifyContent: 'space-between',
+                    }}>
+                      <Text style={{
+                        fontFamily: 'CabinetGrotesk-Black',
+                        fontSize: 20,
+                        marginBottom: 8,
+                        color: '#151515',
+
+                      }}>{userRank}. YOU</Text>
+                      <Text style={{
+                        fontFamily: 'CabinetGrotesk-Black',
+                        fontSize: 20,
+                        marginBottom: 8,
+                        color: '#151515'
+
+                      }}>{usercummScore} points</Text>
+
+                    </View> : <View></View>}
+
+                  </View>}
+
+
+
               </View>
 
               <ThemedButton
