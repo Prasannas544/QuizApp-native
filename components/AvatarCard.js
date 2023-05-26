@@ -52,15 +52,18 @@ const AvatarCard = ({ navigation }) => {
     };
 
     useEffect(() => {
-        playAvtSelection()
+        setTimeout(playAvtSelection, 1000)
         route()
     }, [])
 
     const route = async () => {
         let user_name = await AsyncStorage.getItem('userName');
         if (user_name !== null && user_name !== undefined) {
-            pauseAvtSelection()
-            navigation.replace('Home', { userName: user_name });
+            setTimeout(() => {
+                pauseAvtSelection()
+                navigation.replace('Home', { userName: user_name });
+            }, 1000)
+
         } else {
             getAvatarData();
 

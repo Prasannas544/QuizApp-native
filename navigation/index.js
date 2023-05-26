@@ -4,12 +4,17 @@ import Home from '../screens/home';
 import Quiz from '../screens/quiz';
 import Result from '../screens/result';
 import OnBoard from '../screens/OnBoard';
+import Profile from '../screens/Profile';
 const Stack = createStackNavigator();
 
 const MyStack = () => {
   return (
     <Stack.Navigator>
-
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="onBoard"
         component={OnBoard}
@@ -30,6 +35,7 @@ const MyStack = () => {
         component={Result}
         options={{ headerShown: false }}
       />
+
     </Stack.Navigator>
   );
 };

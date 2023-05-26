@@ -264,7 +264,7 @@ const Quiz = ({ navigation }) => {
           setUserRank(data.userRank)
           setUsercummScore(data.userScores)
         } else {
-          console.log('Error:Leaderboard: Unexpected response status:', response.status);
+          console.log('Error:Leaderboard: Unexpected response status:');
         }
       })
       .catch(error => console.error(error));

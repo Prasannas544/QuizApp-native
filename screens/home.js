@@ -34,11 +34,31 @@ const Home = ({ navigation, route }) => {
   return (
     <View style={[styles.container, { flex: 1, position: 'relative' }]}>
       {/* <Title /> */}
+      <ThemedButton
+        width={80}
+        height={40}
+        backgroundColor='green'
+        raiseLevel={5}
+        style={{ display: 'flex', alignSelf: 'flex-end', borderRadius: 3, marginTop: 20, padding: 0 }}
+        name="bruce"
+        type="anchor"
+        onPress={() => {
+          navigation.replace('Profile', {
+            user_name: name
+          })
+        }}>
+        <View>
+          <Text>
+            Profile
+          </Text>
+        </View>
 
+
+      </ThemedButton>
       <View>
         <Image
           source={require('../components/Group.png')}
-          style={{ width: 300, height: 250, margin: 20, alignSelf: 'center' }}
+          style={{ width: 300, height: 250, margin: 20, alignSelf: 'center', marginTop: -30 }}
           resizeMode="contain"
         />
       </View>
