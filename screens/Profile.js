@@ -115,6 +115,7 @@ const Profile = ({ navigation, route }) => {
                         {params.user_name}</Text>
                 </View>
                 <View style={{ width: '40%', height: '84%', padding: 10, backgroundColor: '#fff9e4', borderWidth: 3, elevation: 5, marginTop: 10 }}>
+                    <Image source={require('../components/seal.png')} style={{ position: 'absolute', top: 2, right: 5, height: 12, width: 12 }} />
                     <View style={{ marginBottom: 10 }}>
                         <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 12, }}>Highest Score</Text>
                         <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 16, }}>65</Text>
@@ -164,7 +165,6 @@ const Profile = ({ navigation, route }) => {
                     height: windowHeight * 0.8,
                     borderRadius: 16,
                 }}>
-
                 <Image source={require('../components/badge1.png')} style={{ width: '100%', height: '100%' }} />
             </Modal>
         </View>
