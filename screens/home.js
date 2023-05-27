@@ -33,24 +33,24 @@ const Home = ({ navigation, route }) => {
   }
   return (
     <View style={[styles.container, { flex: 1, position: 'relative' }]}>
-      {/* <Title /> */}
       <ThemedButton
-        width={80}
+        width={50}
         height={40}
-        backgroundColor='green'
+        backgroundColor='lightgreen'
         raiseLevel={5}
         style={{ display: 'flex', alignSelf: 'flex-end', borderRadius: 3, marginTop: 20, padding: 0 }}
         name="bruce"
         type="anchor"
         onPress={() => {
+          playClick();
+
           navigation.replace('Profile', {
             user_name: name
           })
         }}>
         <View>
-          <Text>
-            Profile
-          </Text>
+          <Image source={require('../components/user.png')} resizeMode='contain' style={{ width: 25, marginLeft: 10 }} />
+
         </View>
 
 
