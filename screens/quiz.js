@@ -487,7 +487,6 @@ const Quiz = ({ navigation }) => {
             </TouchableWithoutFeedback>
 
             <Modal
-              onSwipeStart={toggleModal}
               isVisible={showModal}
               onBackdropPress={toggleModal}
               animationIn="slideInUp"
