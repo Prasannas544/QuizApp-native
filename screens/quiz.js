@@ -340,7 +340,9 @@ const Quiz = ({ navigation }) => {
         <Loader />
       ) : (
         questions && (
-          <View style={{ height: '100%', backgroundColor: '#fff9e4' }}>
+          <View style={{
+            height: '100%', backgroundColor: !isButtonDisabled ? '#fff9e4' : isCorrect ? 'lightgreen' : 'red',
+          }}>
             <TopBar setShowStats={setShowStats} bgfn={bgfn} isCorrect={isCorrect} isButtonDisabled={isButtonDisabled} />
 
 
@@ -607,7 +609,7 @@ const Quiz = ({ navigation }) => {
                     raiseLevel={3}
                     backgroundColor={bgfn(3).bg}
                     name="bruce"
-                    onPress={() => { addTimePU(); playPowerup() }}
+                    // onPress={() => { addTimePU(); playPowerup() }}
                     type="anchor">
                     <View
                       style={{

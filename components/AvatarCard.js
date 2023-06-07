@@ -26,11 +26,35 @@ const AvatarCard = ({ navigation }) => {
     const windowWidth = useWindowDimensions().width;
     const windowHeight = useWindowDimensions().height;
 
+    const saveResult = async (name) => {
 
+        let payload = {
+            user_name: name,
+            score: 0,
+            time_taken: 0
+        }
+
+        let endpointUrl =
+            'https://m42voquwh7.execute-api.ap-south-1.amazonaws.com/save-score';
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        };
+
+        fetch(endpointUrl, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status == 200) {
+                    console.log("played data sent")
+                } else {
+                    alert('retry after some time');
+                }
+            })
+            .catch(error => console.error(error));
+    };
 
     const getAvatarData = async () => {
-
-
         let endpointUrl =
             'https://m42voquwh7.execute-api.ap-south-1.amazonaws.com/get-avatar-data';
 
@@ -76,6 +100,7 @@ const AvatarCard = ({ navigation }) => {
         if (name) {
             await AsyncStorage.setItem('userName', name);
             await AsyncStorage.setItem('avatarName', Avatardata[avatar].name);
+            saveResult(name)
 
             let user_name = await AsyncStorage.getItem('userName');
             pauseAvtSelection()
@@ -193,7 +218,7 @@ const AvatarCard = ({ navigation }) => {
                         }}
                         backgroundDarker='#000'
                         type="anchor">
-                        <Image source={require('../components/lt_arrow.png')} resizeMode='contain' style={{ width: '100%' }} />
+                        <Image source={require('../components/lt_arrow.png')} resizeMode='contain' style={{ width: '80%' }} />
                     </ThemedButton>
                 </View>
                 <View style={{ width: '26%' }}>
@@ -217,7 +242,7 @@ const AvatarCard = ({ navigation }) => {
                         }}
 
                         type="anchor">
-                        <Text style={[styles.bottomText, { fontSize: 20 }]}>
+                        <Text style={[styles.bottomText, { fontSize: 16 }]}>
                             Done
                         </Text>
                     </ThemedButton>
@@ -242,7 +267,7 @@ const AvatarCard = ({ navigation }) => {
                         }}
                         backgroundDarker='#000'
                         type="anchor">
-                        <Image source={require('../components/rt_arrow.png')} resizeMode='contain' style={{ width: '100%' }} />
+                        <Image source={require('../components/rt_arrow.png')} resizeMode='contain' style={{ width: '80%' }} />
 
                     </ThemedButton>
                 </View>

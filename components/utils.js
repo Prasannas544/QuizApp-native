@@ -70,10 +70,10 @@ const avatar_submit = new Sound('avatar_submit.wav', Sound.MAIN_BUNDLE, (error) 
 const naruto_intro = new Sound('naruto_intro.mp3', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
         console.log('Failed to load the sound avatar_submit.wav.mp3', error);
-    }else{
+    } else {
         setTimeout(() => {
             naruto_intro.setNumberOfLoops(-1);
-            // naruto_intro.setVolume(1.0);
+            naruto_intro.setVolume(0.4);
         }, 100);
     }
 });
@@ -207,5 +207,31 @@ export const encodeImage = (name) => {
         return require('./chief.png');
     } else {
         return require('./white.jpg');
+    }
+}
+export const encodeBadge = (badge_no) => {
+
+    if (badge_no == '1') {
+        return require('./badge1.png');
+    } else if (badge_no == '2') {
+        return require('./badge2.png');
+    } else if (badge_no == '3') {
+        return require('./badge3.png');
+    } else if (badge_no == '4') {
+        return require('./badge4.png');
+    } else if (badge_no == '5') {
+        return require('./badge5.png');
+    } else if (badge_no == '6') {
+        return require('./badge6.png');
+    } else if (badge_no == '7') {
+        return require('./badge7.png');
+    } else if (badge_no == '8') {
+        return require('./badge8.png');
+    } else if (badge_no == '9') {
+        return require('./badge9.png');
+    } else if (badge_no == '10') {
+        return require('./badge10.png');
+    } else {
+        return require('./badge1.png');
     }
 }

@@ -47,7 +47,8 @@ const TopBar = ({ setShowStats, bgfn, isButtonDisabled, isCorrect }) => {
                     borderWidth: 2,
                     backgroundColor: isButtonDisabled && isCorrect ? 'green' : '#777777',
                     borderRadius: 20
-                }}></View>
+                }}>
+                </View>
 
                 <View style={{
                     width: 20,
@@ -55,7 +56,8 @@ const TopBar = ({ setShowStats, bgfn, isButtonDisabled, isCorrect }) => {
                     borderWidth: 2,
                     backgroundColor: isButtonDisabled && !isCorrect ? 'red' : '#777777',
                     borderRadius: 20
-                }}></View>
+                }}>
+                </View>
             </View>
 
             <ThemedButton

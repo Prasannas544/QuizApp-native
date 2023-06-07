@@ -2,7 +2,7 @@ import { View, Text, Image, ImageBackground, TouchableWithoutFeedback, Touchable
 import React, { useState, useEffect } from 'react'
 import { ThemedButton } from 'react-native-really-awesome-button'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { encodeImage, playClick, playResConvo, pauseResConvo } from '../components/utils';
+import { encodeImage, playClick, playResConvo, pauseResConvo, encodeBadge } from '../components/utils';
 import Modal from 'react-native-modal'; import { useWindowDimensions } from 'react-native';
 
 
@@ -10,20 +10,21 @@ import Modal from 'react-native-modal'; import { useWindowDimensions } from 'rea
 
 
 const Profile = ({ navigation, route }) => {
-    // const params = route.params;
-    const params = {
-        user_name: 'Goku'
-    }
+    const params = route.params;
+    // const params = {
+    //     user_name: 'Pessi'
+    // }
     const toggleModal = () => {
         setShowModal(!showModal);
     };
     const windowWidth = useWindowDimensions().width;
     const windowHeight = useWindowDimensions().height;
     const [showModal, setShowModal] = useState(false);
+    const [modalImg, setModalImg] = useState("1");
     const [avatar, setAvatar] = useState('DeadPool')
     const [userDetails, setuserDetails] = useState({
-        _id: "DemoUser", totalScore: 0,
-        totalGames: 0, avgScore: 0, eloRating: 1200, badges: ["1"]
+        _id: "DemoUser", totalScore: 0, highestScore: 0,
+        totalGames: 0, avgScore: 0, eloRating: 1200, badges: ["1"], rank: 69
     })
 
     const [badges, setBadges] = useState(["1"])
@@ -74,7 +75,7 @@ const Profile = ({ navigation, route }) => {
     }, [])
 
     return (
-        <ImageBackground source={require('../components/card-bg1.jpg')} style={{
+        <ImageBackground source={require('../components/card-bg4.jpg')} style={{
             paddingHorizontal: 20, height: '100%',
             flex: 1, position: 'relative'
         }}>
@@ -105,12 +106,12 @@ const Profile = ({ navigation, route }) => {
                         <Text style={{
                             position: 'absolute', fontFamily: 'CabinetGrotesk-Black', color: '#000',
                             alignSelf: 'center', fontSize: 36, left: 10, top: 20, margin: 0
-                        }}>#4</Text>
+                        }}>#{userDetails.rank}</Text>
                         <Text
                             style={{
                                 position: 'absolute', bottom: 0,
-                                fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', marginBottom: 10,
-                                paddingVertical: 5, paddingHorizontal: 10, fontSize: 16, elevation: 5, borderRadius: 50
+                                fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', marginBottom: 10, backgroundColor: 'pink',
+                                paddingVertical: 0, paddingHorizontal: 10, fontSize: 16, elevation: 5, borderRadius: 50
                             }}>
                             {params.user_name}
                         </Text>
@@ -121,7 +122,7 @@ const Profile = ({ navigation, route }) => {
                     <Image source={require('../components/seal.png')} style={{ position: 'absolute', top: 3, right: 3, height: 20, width: 20 }} />
                     <View style={{ marginBottom: 10 }}>
                         <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 12, }}>Highest Score</Text>
-                        <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 16, }}>{userDetails.totalGames}</Text>
+                        <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 16, }}>{userDetails.highestScore}</Text>
                     </View>
                     <View style={{ marginBottom: 10 }}>
                         <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 12, }}>Total Points</Text>
@@ -129,7 +130,7 @@ const Profile = ({ navigation, route }) => {
                     </View>
                     <View style={{ marginBottom: 10 }}>
                         <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 12, }}>Average Score</Text>
-                        <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 16, }}>{userDetails.avgScore}</Text>
+                        <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 16, }}>{userDetails.avgScore.toFixed(2)}</Text>
                     </View>
                     <View style={{ marginBottom: 10 }}>
                         <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 12, }}>ELO Rating</Text>
@@ -142,13 +143,15 @@ const Profile = ({ navigation, route }) => {
             <View style={{ height: '60%', margin: 0, borderRadius: 8, padding: 10, paddingTop: 5 }}>
                 <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000', alignSelf: 'center', fontSize: 24, }}>Hall of Fame</Text>
 
-                <View style={{ display: 'flex', flexDirection: 'row', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
+                {badges.length > 0 ? <View style={{ display: 'flex', flexDirection: 'row', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
                     {badges.map((item, i) => {
-                        return (<TouchableWithoutFeedback onPress={toggleModal} key={i}>
-                            <Image source={require('../components/badge1.png')} style={{ width: 70, height: 130 }} />
+                        return (<TouchableWithoutFeedback onPress={() => { setModalImg(item); toggleModal() }} key={i}>
+                            <Image source={encodeBadge(item)} style={{ width: 70, height: 130 }} />
                         </TouchableWithoutFeedback>)
                     })}
-                </View>
+                </View> : <View>
+                    <Text style={{ fontFamily: 'CabinetGrotesk-Bold', color: '#000', alignSelf: 'center', fontSize: 24, }}>Nothing to show !</Text>
+                </View>}
             </View>
 
 
@@ -168,7 +171,7 @@ const Profile = ({ navigation, route }) => {
                     height: windowHeight * 0.8,
                     borderRadius: 16,
                 }}>
-                <Image source={require('../components/badge1.png')} style={{ width: '100%', height: '100%' }} />
+                <Image source={encodeBadge(modalImg)} style={{ width: '100%', height: '100%' }} />
             </Modal>
         </ImageBackground>
     )

@@ -109,9 +109,9 @@ const Home = ({ navigation, route }) => {
       </View>
       <View style={{ position: 'absolute', bottom: 30, alignSelf: 'center' }}>
         <ThemedButton
-          width={250}
+          width={200}
           backgroundColor="#ff8400"
-          style={{ display: 'flex', alignSelf: 'center' }}
+          style={{ display: 'flex', alignSelf: 'center',flexDirection:'row' }}
           name="bruce"
           onPress={() => {
             playClick();
@@ -127,8 +127,9 @@ const Home = ({ navigation, route }) => {
               fontFamily: 'CabinetGrotesk-Black',
               color: '#000',
             }}>
-            Start
+            Play
           </Text>
+          <Image source={require('../components/gamepad.png')} style={{ width: 40, height:30 }} />
         </ThemedButton>
       </View>
     </View>

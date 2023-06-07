@@ -193,8 +193,9 @@ const Result = ({ navigation, route }) => {
                 color: '#fff',
               },
             ]}>
-            {clickCnt < 2 ? 'Next' : 'Home'}
+            {clickCnt < 2 ? 'Next  ' : 'Home  '}
           </Text>
+          <Image source={clickCnt < 2 ? require('../components/fast_forward.png') : require('../components/white_home.jpg')} style={{ width: 25, height: 25 }} />
         </ThemedButton>
       </View>
     </ImageBackground>

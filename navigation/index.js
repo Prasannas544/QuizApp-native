@@ -10,11 +10,7 @@ const Stack = createStackNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={{ headerShown: false }}
-      />
+
       <Stack.Screen
         name="onBoard"
         component={OnBoard}
@@ -33,6 +29,11 @@ const MyStack = () => {
       <Stack.Screen
         name="Result"
         component={Result}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
         options={{ headerShown: false }}
       />
 
