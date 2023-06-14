@@ -91,7 +91,7 @@ const Quiz = ({ navigation }) => {
   const getQuiz = async () => {
     setisLoading(true);
     const url =
-      'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple';
+      'https://opentdb.com/api.php?amount=10&category=9&type=multiple&encode=url3986';
     // const url =
     //   'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
       
