@@ -91,7 +91,10 @@ const Quiz = ({ navigation }) => {
   const getQuiz = async () => {
     setisLoading(true);
     const url =
-      'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
+      'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple';
+    // const url =
+    //   'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
+      
     const res = await fetch(url);
     console.log(res);
     const data = await res.json();
