@@ -94,7 +94,7 @@ const Quiz = ({ navigation }) => {
       'https://opentdb.com/api.php?amount=10&category=9&type=multiple&encode=url3986';
     // const url =
     //   'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
-      
+
     const res = await fetch(url);
     console.log(res);
     const data = await res.json();
@@ -310,9 +310,17 @@ const Quiz = ({ navigation }) => {
     if (ques == 9) {
       playResult()
       pauseBG()
-      setTimeout(function () {
-        navigation.replace('Result', { score: score });
-      }, 1000);
+
+      if (_option === questions[ques].correct_answer)
+        setTimeout(function () {
+          navigation.replace('Result', { score: score + 10 });
+        }, 1000);
+
+      else {
+        setTimeout(function () {
+          navigation.replace('Result', { score: score });
+        }, 1000);
+      }
     }
   };
 
@@ -371,7 +379,7 @@ const Quiz = ({ navigation }) => {
                 />
                 <Text
                   style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000' }}>
-                  {ques}/{questions.length}
+                  {ques + 1}/{questions.length}
                 </Text>
               </View>
               <Text style={{ fontFamily: 'CabinetGrotesk-Black', color: '#000' }}>
